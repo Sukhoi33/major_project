@@ -1,0 +1,17 @@
+{% extends "two_factor/_base.html" %}
+{% load static %}
+{% block two_factor_title %}{% trans "Register - ChipIn" %}{% endblock %}
+
+{% block content %}
+<h1>Register</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
+
+<div style="text-align: center; margin-top: 20px;">
+    <p>Already have an account? <a href="{% url 'users:login' %}">Login</a></p>
+    <a href="{% url 'chipin:landing' %}" style="display: inline-block; padding: 8px 16px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; margin-top: 10px;">← Back</a>
+</div>
+{% endblock %}

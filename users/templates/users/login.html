@@ -1,0 +1,95 @@
+{% extends "two_factor/_base.html" %}
+{% load i18n %}
+
+{% block two_factor_title %}{% trans "Login - ChipIn" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Sign in" %}</h1>
+
+<form id="tf-login-form" method="post" {% if wizard.steps.current == 'auth' %}onsubmit="return execRC();"{% endif %} autocomplete="off">
+  {% csrf_token %}
+
+  {{ wizard.management_form }}
+
+  {# Show form validation errors #}
+  {% if wizard.form.non_field_errors %}
+    <div class="errorlist">
+      {% for e in wizard.form.non_field_errors %}<div>{{ e }}</div>{% endfor %}
+    </div>
+  {% endif %}
+
+  {% if wizard.steps.current == 'auth' %}
+    {# --- Step 1: username/password --- #}
+
+    {# Honeypot (only needed on auth step) #}
+    <input type="text" name="{{ hp_name }}"
+           autocomplete="new-password" tabindex="-1" aria-hidden="true" inputmode="none"
+           style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;">
+
+    {# Timing (only needed on auth step) #}
+    <input type="hidden" name="ts" id="login_ts">
+    <input type="hidden" name="elapsed" id="login_elapsed">
+
+    {# reCAPTCHA token (only needed on auth step) #}
+    <input type="hidden" name="recaptcha-token" id="recaptcha-token">
+
+    <div>
+      {{ wizard.form.username.label_tag }} {{ wizard.form.username }}
+      {% for e in wizard.form.username.errors %}<div class="errorlist">{{ e }}</div>{% endfor %}
+    </div>
+    <div>
+      {{ wizard.form.password.label_tag }} {{ wizard.form.password }}
+      {% for e in wizard.form.password.errors %}<div class="errorlist">{{ e }}</div>{% endfor %}
+    </div>
+
+    <button type="submit">{% trans "Continue" %}</button>
+
+  {% else %}
+    {# --- Step 2: OTP code --- #}
+    <p>{% trans "Enter the 6-digit code from your authenticator app." %}</p>
+    <div>
+      {{ wizard.form.otp_token.label_tag }} {{ wizard.form.otp_token }}
+      {% for e in wizard.form.otp_token.errors %}<div class="errorlist">{{ e }}</div>{% endfor %}
+    </div>
+
+    {# Backup tokens or help links (optional) #}
+    <p><a href="{% url 'two_factor:backup_tokens' %}">{% trans "Use a backup code" %}</a></p>
+
+    <button type="submit">{% trans "Verify" %}</button>
+  {% endif %}
+</form>
+
+<div style="text-align: center; margin-top: 20px;">
+  <a href="{% url 'chipin:landing' %}" style="display: inline-block; padding: 8px 16px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; margin-top: 10px;">← Back</a>
+</div>
+
+{% if wizard.steps.current == 'auth' %}
+  <script>
+  (function () {
+    const start = Date.now() / 1000;
+    document.getElementById('login_ts').value = start.toFixed(3);
+    document.getElementById('tf-login-form').addEventListener('submit', function () {
+      const elapsed = (Date.now() / 1000) - start;
+      document.getElementById('login_elapsed').value = elapsed.toFixed(3);
+    });
+  })();
+  </script>
+
+{# Use the site key from context if you’ve passed it; fallback to your hard-coded dev key #}
+<script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY|default:'6LeMRm4qAAAAADD-PhyZEaZz2nWI4DMYqeYw43uP' }}"></script>
+<script>
+function execRC() {
+  var siteKey = '{{ RECAPTCHA_SITE_KEY|default:"6LeMRm4qAAAAADD-PhyZEaZz2nWI4DMYqeYw43uP" }}';
+  if (!window.grecaptcha || !siteKey) return true; // optional: fail-open if script blocked in dev
+  grecaptcha.ready(function() {
+    grecaptcha.execute(siteKey, { action: 'login' })
+      .then(function(token) {
+        document.getElementById('recaptcha-token').value = token;
+        document.getElementById('tf-login-form').submit(); // submit AFTER token is set
+      });
+  });
+  return false; // prevent default; we submit manually after token
+}
+</script>
+{% endif %}
+{% endblock %}

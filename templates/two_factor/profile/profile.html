@@ -1,0 +1,53 @@
+{% extends "two_factor/_base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1>{% trans "Account Security" %}</h1>
+
+  <p>
+    {% blocktrans %}
+      This page shows the security features of your account and allows you to
+      enable or disable them.
+    {% endblocktrans %}
+  </p>
+
+  <h2>{% trans "Two-Factor Authentication" %}</h2>
+
+  {% if default_device %}
+    <p>
+      {% blocktrans %}
+        Two-factor authentication is currently <strong>enabled</strong> for your account.
+      {% endblocktrans %}
+    </p>
+
+    <p>
+      <a href="{% url 'two_factor:disable' %}" class="btn btn-danger">
+        {% trans "Disable Two-Factor Authentication" %}
+      </a>
+    </p>
+
+    <h3>{% trans "Backup Tokens" %}</h3>
+    <p>
+      <a href="{% url 'two_factor:backup_tokens' %}" class="btn btn-secondary">
+        {% trans "View Backup Tokens" %}
+      </a>
+    </p>
+
+  {% else %}
+    <p>
+      {% blocktrans %}
+        Two-factor authentication is currently <strong>disabled</strong> for your account.
+      {% endblocktrans %}
+    </p>
+
+    <p>
+      <a href="{% url 'two_factor:setup' %}" class="btn btn-primary">
+        {% trans "Enable Two-Factor Authentication" %}
+      </a>
+    </p>
+  {% endif %}
+    <hr>
+    <div style="margin-top: 20px;">
+        <a href="{% url 'chipin:home' %}" class="btn btn-secondary">Back</a>
+    </div>
+{% endblock %}

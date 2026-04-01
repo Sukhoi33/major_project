@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Two-Factor Authentication{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'chipin/styles.css' %}">
+    <style>
+        /* Center the form on the page */
+        .two-factor-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+
+        .two-factor-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Style the inputs and buttons */
+        .two-factor-container input[type="text"],
+        .two-factor-container input[type="password"],
+        .two-factor-container input[type="email"],
+        .two-factor-container input[type="hidden"] {
+            width: 100%;
+            padding: 8px 12px;
+            margin: 8px 0 16px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .two-factor-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .two-factor-container button:hover {
+            background-color: #218838;
+        }
+
+        /* Hide the Google reCAPTCHA testing banner */
+        .grecaptcha-badge {
+            display: none !important;
+        }
+
+        /* Optional: style messages */
+        .messages {
+            margin-bottom: 16px;
+        }
+
+        .messages .error {
+            color: red;
+        }
+
+        .messages .success {
+            color: green;
+        }
+    </style>
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="two-factor-container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html> 

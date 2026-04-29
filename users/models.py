@@ -28,7 +28,6 @@ def ensure_profile(instance: User, **kwargs):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     nickname = models.CharField(max_length=30, unique=True)
-    balance = models.DecimalField(max_digits=10, decimal_places=2, default=100.00)  
     max_spend = models.DecimalField(max_digits=10, decimal_places=5, default=100.00)# Max spend for each event
 
     def __str__(self):

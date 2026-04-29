@@ -1,11 +1,22 @@
 /* Basic styling for the header section */
-.header {
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f4f4f4;
+    background-color: #004b9b;
+    padding: 50px 20px;
+    border-bottom: 5px solid #00326b;
+    line-height: 2;
+    color: white;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    background-color: #007BFF;
     padding: 10px 20px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #0056b3;
     line-height: 2;
 }
 
@@ -19,7 +30,8 @@
     display: flex;
     align-items: center;
     font-size: 16px;
-    line-height: 2
+    line-height: 2;
+    color: white;
 }
 
 /* User information span */
@@ -87,7 +99,11 @@ button:hover {
 /* Basic styling for links */
 a {
     color: #007BFF;
-    text-decoration: none;
+    text-decorat;
+}
+
+header a {
+    color: white;ion: none;
     padding: 5px
 }
 
@@ -101,3 +117,18 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     .row { margin: 1.5rem 0; }
     .btn { display: inline-block; padding: .5rem .9rem; border-radius: 8px; text-decoration: none; border: 1px solid #ccc; }
     .btn-primary { border-color: #2b6cb0; }
+
+/* Landing page header styling */
+.landing-header {
+    text-align: center;
+    width: 100%;
+}
+
+.landing-header h1 {
+    font-size: 2.5em;
+}
+
+.landing-header h2 {
+    margin: 10px 0 0 0;
+    font-size: 1.5em;
+}

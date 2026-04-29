@@ -9,7 +9,6 @@ class UserRegistrationForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True)
     surname = forms.CharField(max_length=30, required=True, label="Last name")
     nickname = forms.CharField(max_length=30, required=True)
-    balance = forms.DecimalField(max_digits=10, decimal_places=2, required=False, initial=100.00)
 
     class Meta:
 
@@ -41,7 +40,6 @@ class UserRegistrationForm(UserCreationForm):
         user.email = email
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['surname']
-        user.balance = self.cleaned_data.get('balance', 100.00)
 
         if commit:
             user.save()
@@ -65,10 +63,3 @@ class AuthenticationForm(AuthenticationForm):
     def confirm_login_allowed(self, user):
         super().confirm_login_allowed(user)
         # Additional checks can be added here if needed
-
-class TopUpForm(forms.Form):
-    amount = forms.DecimalField(min_value=0.01, decimal_places=2, max_digits=5, label="Amount to Top-Up",
-    error_messages={
-    'min_value': "Please enter an amount greater than $0.00.",
-    'invalid': "Enter a valid amount in dollars and cents.",
-})

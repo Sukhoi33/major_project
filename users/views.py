@@ -8,8 +8,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserRegistrationForm, AuthenticationForm, TopUpForm
-from chipin.models import Transaction
+from .forms import UserRegistrationForm, AuthenticationForm
 from two_factor.views.core import LoginView as TFLoginView
 
 
@@ -158,29 +157,3 @@ def logout_view(request):
     messages.success(request, "Successfully logged out.")
     return redirect('users:login')
 
-@login_required
-def top_up(request):
-    form = TopUpForm(request.POST)
-    if form.is_valid():
-        amount = form.cleaned_data['amount']
-        profile = request.user.profile
-        profile.balance += amount
-        profile.save()
-        Transaction.objects.create(user=request.user, amount=amount)
-        messages.success(request, f"Your balance has been topped up by ${amount}.")
-    context = {
-    'form': form,
-    'balance': request.user.profile.balance}   
-    return render(request, 'users/top_up.html', context)
-
-@login_required
-def profile(request):
-    if request.method == "POST":
-        balance = request.POST.get("balance")
-        if balance:
-                balance = float(balance)
-                request.user.profile.balance = balance
-                request.user.profile.save(update_fields=["balance"])
-                messages.success(request, "Profile updated successfully.")
-                return redirect('users:profile')
-    return render(request, 'users/profile.html')

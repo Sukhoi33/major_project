@@ -1,20 +1,13 @@
 {% extends 'chipin/base.html' %}
 {% load static %}
 
-{% block title %}title{% endblock %}
-
-{% block header_content %}
-<div class="landing-header">
-  <h1>PreFlight</h1>
-  <h2>Landing</h2>
-</div>
-{% endblock %}
+{% block title %}PreFlight{% endblock %}
 
 {% block content %}
-<div style="text-align: center; margin-top: 50px;">
-  <div style="display: flex; justify-content: center; gap: 20px;">
-    <a href="{% url 'users:login' %}" style="padding: 10px 20px; font-size: 1em; text-decoration: none; background-color: #2196F3; color: white; border-radius: 5px;">Login</a>
-    <a href="{% url 'users:register' %}" style="padding: 10px 20px; font-size: 1em; text-decoration: none; background-color: #4CAF50; color: white; border-radius: 5px;">Register</a>
+<div class="landing-page">
+  <div class="auth-buttons">
+    <a href="{% url 'users:login' %}" class="menu-button">Login</a>
+    <a href="{% url 'users:register' %}" class="menu-button">Register</a>
   </div>
 </div>
 {% endblock %}

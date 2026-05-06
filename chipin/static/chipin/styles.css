@@ -1,12 +1,19 @@
 /* Basic styling for the header section */
 header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     background-color: #004b9b;
     padding: 50px 20px;
     border-bottom: 5px solid #00326b;
     line-height: 2;
+    color: white;
+}
+
+/* Header title styling */
+.header-title h2 {
+    margin: 0;
+    font-size: 1.8em;
     color: white;
 }
 
@@ -99,12 +106,13 @@ button:hover {
 /* Basic styling for links */
 a {
     color: #007BFF;
-    text-decorat;
+    text-decoration: none;
 }
 
 header a {
-    color: white;ion: none;
-    padding: 5px
+    color: white;
+    text-decoration: none;
+    padding: 5px;
 }
 
 a:hover {
@@ -131,4 +139,87 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
 .landing-header h2 {
     margin: 10px 0 0 0;
     font-size: 1.5em;
+}
+
+/* PreFlight Home styling */
+.preflight-home {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.preflight-home h1 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 2rem;
+    color: #004b9b;
+}
+
+.home-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.menu-button {
+    display: block;
+    padding: 1.5rem;
+    text-align: center;
+    border: 2px solid #004b9b;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    color: #004b9b;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.menu-button:hover {
+    background-color: #004b9b;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 75, 155, 0.2);
+}
+
+/* User section styling */
+.user-section {
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.user-info-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border: 2px solid #004b9b;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.username {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #004b9b;
+}
+
+.logout-form {
+    margin: 0;
+}
+
+.logout-btn {
+    background-color: #004b9b;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #00326b;
+    transform: translateY(-2px);
 }

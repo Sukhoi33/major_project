@@ -1,35 +1,50 @@
 {% extends 'chipin/base.html' %}
 {% load static %}
-{% block title %}ChipIn{% endblock %}
+{% block title %}PreFlight Home{% endblock %}
 {% block content %}
-    <h1>Welcome, {{ user.get_username }}</h1>
+    <div class="preflight-home">
+        <h1>Home</h1>
+        
+        <div class="home-menu">
+            <a href="{% url 'chipin:aircraft_profiles' %}" class="menu-button">Aircraft Profiles</a>
+            <a href="{% url 'chipin:new_flight' %}" class="menu-button">New Flight</a>
+            <a href="{% url 'chipin:flight_log' %}" class="menu-button">Flight Logs</a>
+        </div>
 
-    <div class="card">
-    <div class="row">
-      <strong>Authentication status:</strong>
-      {% if is_verified %}
-        <span>✅ 2FA verified for this session.</span>
-      {% elif has_device %}
-        <span>⚠️ You have 2FA set up, but you're not verified in this session.</span>
-      {% else %}
-        <span>❌ No 2FA device enrolled yet.</span>
-      {% endif %}
-    </div>
-     <div class="row">
-      {% if not has_device %}
-        <!-- Start the setup wizard -->
-        <a class="btn btn-primary" href="{% url 'two_factor:setup' %}">Setup 2FA (scan QR)</a>
-      {% else %}
-        <a class="btn" href="{% url 'two_factor:profile' %}">Manage 2FA</a>
-        <a class="btn" href="{% url 'two_factor:backup_tokens' %}">Backup codes</a>
-        <a class="btn" href="{% url 'two_factor:disable' %}">Disable 2FA</a>
-      {% endif %}
-    </div>
-    <hr>
-  </div>
+        <div class="user-section">
+            <div class="user-info-card">
+                <span class="username">{{ request.user.profile.nickname }}</span>
+                <form action="{% url 'users:logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
+            </div>
+        </div>
 
-  <p style="margin-top:2rem;">
-    Try visiting a protected page that <em>requires</em> OTP:
-    <a href="{% url 'chipin:sensitive' %}">Sensitive area</a>
-  </p>
+        <div class="card">
+            <div class="row">
+                <strong>Authentication status:</strong>
+                {% if is_verified %}
+                    <span>✅ 2FA verified for this session.</span>
+                {% elif has_device %}
+                    <span>⚠️ You have 2FA set up, but you're not verified in this session.</span>
+                {% else %}
+                    <span>❌ No 2FA device enrolled yet.</span>
+                {% endif %}
+            </div>
+            <div class="row">
+                {% if not has_device %}
+                    <a class="btn btn-primary" href="{% url 'two_factor:setup' %}">Setup 2FA (scan QR)</a>
+                {% else %}
+                    <a class="btn" href="{% url 'two_factor:profile' %}">Manage 2FA</a>
+                    <a class="btn" href="{% url 'two_factor:backup_tokens' %}">Backup codes</a>
+                    <a class="btn" href="{% url 'two_factor:disable' %}">Disable 2FA</a>
+                {% endif %}
+            </div>
+            <div class="row">
+                Try visiting a protected page that <em>requires</em> OTP:
+                <a href="{% url 'chipin:sensitive' %}">Sensitive area</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -32,3 +32,24 @@ def home(request):
         "user": request.user,
     }
     return render(request, 'chipin/home.html', context)
+
+
+@login_required
+def aircraft_profiles(request):
+    """Aircraft Profiles page."""
+    context = {"user": request.user}
+    return render(request, 'chipin/aircraft_profiles.html', context)
+
+
+@login_required
+def new_flight(request):
+    """New Flight page."""
+    context = {"user": request.user}
+    return render(request, 'chipin/new_flight.html', context)
+
+
+@login_required
+def flight_log(request):
+    """Flight Log page."""
+    context = {"user": request.user}
+    return render(request, 'chipin/flight_log.html', context)

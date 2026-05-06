@@ -186,17 +186,20 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
 .user-section {
     margin-top: 2.5rem;
     margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
 }
 
 .user-info-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
+    gap: 1.25rem;
+    padding: 0.75rem;
     border: 2px solid #004b9b;
     border-radius: 8px;
     background-color: #f8f9fa;
-    max-width: 400px;
+    max-width: 500px;
 }
 
 .username {
@@ -233,7 +236,13 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
 
 .auth-buttons {
     display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    flex-direction: row;
+    gap: 1rem;
     margin-top: 3rem;
+    justify-content: center;
+}
+
+.landing-page .menu-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
 }

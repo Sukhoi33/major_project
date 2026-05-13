@@ -5,11 +5,45 @@
 
 {% block content %}
     <div class="aircraft-profiles-page">
-        <div class="aircraft-container">
-            <!-- Sample aircraft cards - user will add their own content -->
-            <div id="aircraft-list">
-                <!-- Aircraft will be displayed here -->
-            </div>
+
+        <div id="aircraft-list">
+            {% if aircraft_list %}
+                {% for aircraft in aircraft_list %}
+                <div class="aircraft-card">
+                    <div class="aircraft-card-header">
+                        <span class="aircraft-card-reg">{{ aircraft.registration }}</span>
+                        <span class="aircraft-card-model">{{ aircraft.model }}</span>
+                    </div>
+                    <div class="aircraft-card-body">
+                        <div class="aircraft-card-item">
+                            <span class="item-label">Fuel consumption rate</span>
+                            <span class="item-value">{{ aircraft.fuel_consumption }}</span>
+                        </div>
+                        <div class="aircraft-card-item">
+                            <span class="item-label">Essential speed #1</span>
+                            <span class="item-value">{{ aircraft.speed1 }}</span>
+                        </div>
+                        <div class="aircraft-card-item">
+                            <span class="item-label">Essential speed #2</span>
+                            <span class="item-value">{{ aircraft.speed2 }}</span>
+                        </div>
+                        <div class="aircraft-card-item">
+                            <span class="item-label">Essential speed #3</span>
+                            <span class="item-value">{{ aircraft.speed3 }}</span>
+                        </div>
+                    </div>
+                    <div class="aircraft-card-actions">
+                        <a href="{% url 'chipin:edit_aircraft' aircraft.pk %}" class="card-action-btn edit-btn">Edit</a>
+                        <form method="post" action="{% url 'chipin:delete_aircraft' aircraft.pk %}" class="delete-form" onsubmit="return confirm('Delete {{ aircraft.registration }}?')">
+                            {% csrf_token %}
+                            <button type="submit" class="card-action-btn delete-btn">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-aircraft-msg">No aircraft added yet.</p>
+            {% endif %}
         </div>
 
         <div class="add-aircraft-section">
@@ -20,10 +54,4 @@
             <a href="{% url 'chipin:home' %}" class="back-btn">Back</a>
         </div>
     </div>
-
-    <script>
-        // Placeholder for aircraft management functionality
-        // Content will be added by the user
-    </script>
 {% endblock %}
-

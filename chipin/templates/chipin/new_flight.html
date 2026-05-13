@@ -1,12 +1,15 @@
 {% extends 'chipin/base.html' %}
 {% load static %}
 {% block title %}New Flight{% endblock %}
+{% block header_content %}<div class="header-page-title">New Flight</div>{% endblock %}
 {% block content %}
     <div class="page-container">
-        <h1>New Flight</h1>
         
         <div class="content-area">
             <!-- Content will be added here -->
         </div>
     </div>
+        <div class="back-button-container">
+            <a href="{% url 'chipin:home' %}" class="back-btn">Back</a>
+        </div>
 {% endblock %}

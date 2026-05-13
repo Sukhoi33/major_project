@@ -1,12 +1,29 @@
 {% extends 'chipin/base.html' %}
 {% load static %}
 {% block title %}Aircraft Profiles{% endblock %}
+{% block header_content %}<div class="header-page-title">Aircraft Profiles</div>{% endblock %}
+
 {% block content %}
-    <div class="page-container">
-        <h1>Aircraft Profiles</h1>
-        
-        <div class="content-area">
-            <!-- Content will be added here -->
+    <div class="aircraft-profiles-page">
+        <div class="aircraft-container">
+            <!-- Sample aircraft cards - user will add their own content -->
+            <div id="aircraft-list">
+                <!-- Aircraft will be displayed here -->
+            </div>
+        </div>
+
+        <div class="add-aircraft-section">
+            <a href="{% url 'chipin:add_aircraft' %}" class="add-aircraft-btn">Add an aircraft<br>+</a>
+        </div>
+
+        <div class="back-button-container">
+            <a href="{% url 'chipin:home' %}" class="back-btn">Back</a>
         </div>
     </div>
+
+    <script>
+        // Placeholder for aircraft management functionality
+        // Content will be added by the user
+    </script>
 {% endblock %}
+

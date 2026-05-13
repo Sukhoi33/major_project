@@ -1,0 +1,16 @@
+{% extends 'chipin/base.html' %}
+{% load static %}
+{% block title %}Add an Aircraft{% endblock %}
+{% block header_content %}<div class="header-page-title">Add an Aircraft</div>{% endblock %}
+{% block content %}
+    <div class="page-container">
+        
+        <div class="content-area">
+            <!-- Content will be added here -->
+        </div>
+
+        <div style="margin-top: 20px;">
+            <a href="{% url 'chipin:aircraft_profiles' %}" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+{% endblock %}

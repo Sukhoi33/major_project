@@ -4,10 +4,18 @@ header {
     justify-content: center;
     align-items: center;
     background-color: #004b9b;
-    padding: 50px 20px;
+    padding: 20px 20px;
     border-bottom: 5px solid #00326b;
-    line-height: 2;
     color: white;
+}
+
+.header-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 600px;
+    gap: 0.15rem;
 }
 
 /* Header title styling */
@@ -15,6 +23,18 @@ header {
     margin: 0;
     font-size: 1.8em;
     color: white;
+    line-height: 1.2;
+}
+
+/* Page subtitle shown below PreFlight in the header */
+.header-page-title {
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 0.03em;
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
 }
 
 .header {
@@ -58,11 +78,6 @@ header {
     font-size: 14px;
 }
 
-/* Logout button hover effect */
-.user-info button:hover {
-    background-color: #0056b3;
-}
-
 /* Style for the messages */
 .messages {
     list-style-type: none;
@@ -98,11 +113,6 @@ button {
     margin-bottom: 20px;
 }
 
-/* General button hover effect */
-button:hover {
-    background-color: #218838;
-}
-
 /* Basic styling for links */
 a {
     color: #007BFF;
@@ -114,11 +124,6 @@ header a {
     text-decoration: none;
     padding: 5px;
 }
-
-a:hover {
-    text-decoration: underline;
-}
-
 
 body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem; }
     .card { border: 1px solid #ddd; border-radius: 12px; padding: 1.25rem; max-width: 720px; }
@@ -175,13 +180,6 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     transition: all 0.3s ease;
 }
 
-.menu-button:hover {
-    background-color: #004b9b;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 75, 155, 0.2);
-}
-
 /* User section styling */
 .user-section {
     margin-top: 2.5rem;
@@ -223,11 +221,6 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     transition: all 0.3s ease;
 }
 
-.logout-btn:hover {
-    background-color: #00326b;
-    transform: translateY(-2px);
-}
-
 /* Landing page styling */
 .landing-page {
     max-width: 600px;
@@ -245,4 +238,119 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
 .landing-page .menu-button {
     padding: 0.75rem 1.5rem;
     font-size: 0.95rem;
+}
+
+/* Aircraft Profiles Page styling */
+.aircraft-profiles-page {
+    max-width: 600px;
+    margin: 2rem 0;
+    padding: 0 20px;
+}
+
+/* Generic inner page container */
+.page-container {
+    max-width: 600px;
+    margin: 2rem 0;
+    padding: 0 20px;
+}
+
+/* Page header subtitle for extended header box */
+.page-title {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: #004b9b;
+    font-size: 1.8em;
+}
+
+.aircraft-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.aircraft-card {
+    border: 2px solid #333;
+    border-radius: 4px;
+    padding: 1rem;
+    background-color: white;
+}
+
+.aircraft-card-title {
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #333;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.aircraft-card-item {
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.aircraft-card-item:last-child {
+    border-bottom: none;
+}
+
+.aircraft-card-toggle {
+    background-color: #f0f0f0;
+    padding: 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.add-aircraft-box {
+    display: none;
+}
+
+.add-aircraft-section {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.add-aircraft-btn {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    color: #004b9b;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 1rem;
+    border: 2px solid #004b9b;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-aircraft-btn:hover {
+    background-color: #e2e8f0;
+}
+
+.back-button-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 2rem;
+}
+
+.back-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #004b9b;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    color: #004b9b;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #e2e8f0;
 }

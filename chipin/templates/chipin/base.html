@@ -7,10 +7,12 @@
 </head>
 <body>
     <header>
-        <div class="header-title">
-            <h2>PreFlight</h2>
+        <div class="header-page-title">
+            <div class="header-title">
+                <h2>PreFlight</h2>
+            </div>
+            {% block header_content %}{% endblock %}
         </div>
-        {% block header_content %}{% endblock %}
     </header>
     <main>
         {% block content %}

@@ -42,6 +42,13 @@ def aircraft_profiles(request):
 
 
 @login_required
+def add_aircraft(request):
+    """Add Aircraft page."""
+    context = {"user": request.user}
+    return render(request, 'chipin/add_aircraft.html', context)
+
+
+@login_required
 def new_flight(request):
     """New Flight page."""
     context = {"user": request.user}

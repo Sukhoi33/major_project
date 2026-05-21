@@ -542,3 +542,27 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     font-size: 0.95rem;
     margin-bottom: 1.5rem;
 }
+
+/* ── Form unit labels & section header ── */
+.input-unit {
+    flex: 0 0 auto;
+    padding: 0 0.75rem;
+    font-size: 0.8rem;
+    color: #666;
+    background-color: #f0f4f8;
+    border-left: 1px solid #004b9b;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.form-section-header {
+    background-color: #004b9b;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.85rem;
+    border-bottom: 1px solid #003580;
+}

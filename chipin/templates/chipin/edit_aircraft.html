@@ -18,18 +18,65 @@
                 <div class="form-row">
                     <label for="fuel_consumption">Fuel consumption rate</label>
                     <input type="number" step="0.1" id="fuel_consumption" name="fuel_consumption" value="{{ form.fuel_consumption.value|default:aircraft.fuel_consumption }}" required>
+                    <span class="input-unit">L/hr</span>
+                </div>
+
+                <div class="form-section-header">V-Speeds</div>
+
+                <div class="form-row">
+                    <label for="vso">V<sub>SO</sub> — Stall, landing config</label>
+                    <input type="number" step="1" id="vso" name="vso" value="{{ form.vso.value|default:aircraft.vso }}">
+                    <span class="input-unit">kts</span>
                 </div>
                 <div class="form-row">
-                    <label for="speed1">Essential speed #1</label>
-                    <input type="number" step="0.1" id="speed1" name="speed1" value="{{ form.speed1.value|default:aircraft.speed1 }}" required>
+                    <label for="vs1">V<sub>S1</sub> — Stall, clean</label>
+                    <input type="number" step="1" id="vs1" name="vs1" value="{{ form.vs1.value|default:aircraft.vs1 }}">
+                    <span class="input-unit">kts</span>
                 </div>
                 <div class="form-row">
-                    <label for="speed2">Essential speed #2</label>
-                    <input type="number" step="0.1" id="speed2" name="speed2" value="{{ form.speed2.value|default:aircraft.speed2 }}" required>
+                    <label for="vr">V<sub>R</sub> — Rotation</label>
+                    <input type="number" step="1" id="vr" name="vr" value="{{ form.vr.value|default:aircraft.vr }}">
+                    <span class="input-unit">kts</span>
                 </div>
                 <div class="form-row">
-                    <label for="speed3">Essential speed #3</label>
-                    <input type="number" step="0.1" id="speed3" name="speed3" value="{{ form.speed3.value|default:aircraft.speed3 }}" required>
+                    <label for="vx">V<sub>X</sub> — Best angle of climb</label>
+                    <input type="number" step="1" id="vx" name="vx" value="{{ form.vx.value|default:aircraft.vx }}">
+                    <span class="input-unit">kts</span>
+                </div>
+                <div class="form-row">
+                    <label for="vy">V<sub>Y</sub> — Best rate of climb</label>
+                    <input type="number" step="1" id="vy" name="vy" value="{{ form.vy.value|default:aircraft.vy }}">
+                    <span class="input-unit">kts</span>
+                </div>
+                <div class="form-row">
+                    <label for="vfe">V<sub>FE</sub> — Max flap extended</label>
+                    <input type="number" step="1" id="vfe" name="vfe" value="{{ form.vfe.value|default:aircraft.vfe }}">
+                    <span class="input-unit">kts</span>
+                </div>
+                <div class="form-row">
+                    <label for="vno">V<sub>NO</sub> — Max structural cruising</label>
+                    <input type="number" step="1" id="vno" name="vno" value="{{ form.vno.value|default:aircraft.vno }}">
+                    <span class="input-unit">kts</span>
+                </div>
+                <div class="form-row">
+                    <label for="vne">V<sub>NE</sub> — Never exceed</label>
+                    <input type="number" step="1" id="vne" name="vne" value="{{ form.vne.value|default:aircraft.vne }}">
+                    <span class="input-unit">kts</span>
+                </div>
+                <div class="form-row">
+                    <label for="va">V<sub>A</sub> — Manoeuvring</label>
+                    <input type="number" step="1" id="va" name="va" value="{{ form.va.value|default:aircraft.va }}">
+                    <span class="input-unit">kts</span>
+                </div>
+                <div class="form-row">
+                    <label for="vlo">V<sub>LO</sub> — Max gear operating</label>
+                    <input type="number" step="1" id="vlo" name="vlo" value="{{ form.vlo.value|default:aircraft.vlo }}">
+                    <span class="input-unit">kts</span>
+                </div>
+                <div class="form-row">
+                    <label for="vle">V<sub>LE</sub> — Max gear extended</label>
+                    <input type="number" step="1" id="vle" name="vle" value="{{ form.vle.value|default:aircraft.vle }}">
+                    <span class="input-unit">kts</span>
                 </div>
             </div>
 

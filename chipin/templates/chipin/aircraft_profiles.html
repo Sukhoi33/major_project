@@ -10,27 +10,19 @@
             {% if aircraft_list %}
                 {% for aircraft in aircraft_list %}
                 <div class="aircraft-card">
-                    <div class="aircraft-card-header">
-                        <span class="aircraft-card-reg">{{ aircraft.registration }}</span>
-                        <span class="aircraft-card-model">{{ aircraft.model }}</span>
-                    </div>
-                    <div class="aircraft-card-body">
-                        <div class="aircraft-card-item">
-                            <span class="item-label">Fuel consumption rate</span>
-                            <span class="item-value">{{ aircraft.fuel_consumption }} L/hr</span>
+                    <a href="{% url 'chipin:view_aircraft' aircraft.pk %}" class="aircraft-card-main">
+                        <div class="aircraft-card-header">
+                            <span class="aircraft-card-reg">{{ aircraft.registration }}</span>
+                            <span class="aircraft-card-model">{{ aircraft.model }}</span>
                         </div>
-                        {% if aircraft.vso %}<div class="aircraft-card-item"><span class="item-label">V<sub>SO</sub> — Stall, landing config</span><span class="item-value">{{ aircraft.vso }} {{ aircraft.speed_unit }}</span></div>{% endif %}
-                        {% if aircraft.vs1 %}<div class="aircraft-card-item"><span class="item-label">V<sub>S1</sub> — Stall, clean</span><span class="item-value">{{ aircraft.vs1 }} {{ aircraft.speed_unit }}</span></div>{% endif %}
-                        {% if aircraft.vr  %}<div class="aircraft-card-item"><span class="item-label">V<sub>R</sub> — Rotation</span><span class="item-value">{{ aircraft.vr }} {{ aircraft.speed_unit }}</span></div>{% endif %}
-                        {% if aircraft.vx  %}<div class="aircraft-card-item"><span class="item-label">V<sub>X</sub> — Best angle of climb</span><span class="item-value">{{ aircraft.vx }} {{ aircraft.speed_unit }}</span></div>{% endif %}
-                        {% if aircraft.vy  %}<div class="aircraft-card-item"><span class="item-label">V<sub>Y</sub> — Best rate of climb</span><span class="item-value">{{ aircraft.vy }} {{ aircraft.speed_unit }}</span></div>{% endif %}
-                        {% if aircraft.vfe %}<div class="aircraft-card-item"><span class="item-label">V<sub>FE</sub> — Max flap extended</span><span class="item-value">{{ aircraft.vfe }} {{ aircraft.speed_unit }}</span></div>{% endif %}
-                        {% if aircraft.vno %}<div class="aircraft-card-item"><span class="item-label">V<sub>NO</sub> — Max structural cruising</span><span class="item-value">{{ aircraft.vno }} {{ aircraft.speed_unit }}</span></div>{% endif %}
-                        {% if aircraft.vne %}<div class="aircraft-card-item"><span class="item-label">V<sub>NE</sub> — Never exceed</span><span class="item-value">{{ aircraft.vne }} {{ aircraft.speed_unit }}</span></div>{% endif %}
-                        {% if aircraft.va  %}<div class="aircraft-card-item"><span class="item-label">V<sub>A</sub> — Manoeuvring</span><span class="item-value">{{ aircraft.va }} {{ aircraft.speed_unit }}</span></div>{% endif %}
-                        {% if aircraft.vlo %}<div class="aircraft-card-item"><span class="item-label">V<sub>LO</sub> — Max gear operating</span><span class="item-value">{{ aircraft.vlo }} {{ aircraft.speed_unit }}</span></div>{% endif %}
-                        {% if aircraft.vle %}<div class="aircraft-card-item"><span class="item-label">V<sub>LE</sub> — Max gear extended</span><span class="item-value">{{ aircraft.vle }} {{ aircraft.speed_unit }}</span></div>{% endif %}
+                    </a>
+                    <div class="aircraft-dropdown" id="dropdown-{{ aircraft.pk }}" style="display:none;">
+                        <a href="#" class="dropdown-item">Manuals &gt;</a>
+                        <a href="#" class="dropdown-item">Checklists &gt;</a>
+                        <a href="#" class="dropdown-item">Maintenance Releases &gt;</a>
+                        <a href="{% url 'chipin:view_aircraft' aircraft.pk %}" class="dropdown-item">Essential Info &gt;</a>
                     </div>
+                    <button class="aircraft-card-toggle" onclick="toggleDropdown({{ aircraft.pk }}, this)" aria-label="Toggle menu">&#x2228;</button>
                     <div class="aircraft-card-actions">
                         <a href="{% url 'chipin:edit_aircraft' aircraft.pk %}" class="card-action-btn edit-btn">Edit</a>
                         <form method="post" action="{% url 'chipin:delete_aircraft' aircraft.pk %}" class="delete-form" onsubmit="return confirm('Delete {{ aircraft.registration }}?')">
@@ -53,4 +45,13 @@
             <a href="{% url 'chipin:home' %}" class="back-btn">Back</a>
         </div>
     </div>
+
+    <script>
+        function toggleDropdown(pk, btn) {
+            const dropdown = document.getElementById('dropdown-' + pk);
+            const isOpen = dropdown.style.display !== 'none';
+            dropdown.style.display = isOpen ? 'none' : 'block';
+            btn.innerHTML = isOpen ? '&#x2228;' : '&#x2227;';
+        }
+    </script>
 {% endblock %}

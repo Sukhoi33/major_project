@@ -1,10 +1,29 @@
-/* Basic styling for the header section */
+/* ══════════════════════════════════════════
+   BASE
+══════════════════════════════════════════ */
+body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    margin: 2rem;
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
 header {
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #004b9b;
-    padding: 20px 20px;
+    padding: 20px;
     border-bottom: 5px solid #00326b;
     color: white;
 }
@@ -18,7 +37,6 @@ header {
     gap: 0.15rem;
 }
 
-/* Header title styling */
 .header-title h2 {
     margin: 0;
     font-size: 1.8em;
@@ -26,7 +44,6 @@ header {
     line-height: 1.2;
 }
 
-/* Page subtitle shown below PreFlight in the header */
 .header-page-title {
     font-size: 1rem;
     font-weight: 400;
@@ -37,116 +54,52 @@ header {
     line-height: 1.2;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    background-color: #007BFF;
-    padding: 10px 20px;
-    border-bottom: 1px solid #0056b3;
-    line-height: 2;
-}
-
-/* Style for the logo in the header */
-.logo img {
-    max-height: 50px;
-}
-
-/* User info section within the header */
-.user-info {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    line-height: 2;
-    color: white;
-}
-
-/* User information span */
-.user-info span {
-    margin-right: 10px;
-    font-weight: bold;
-}
-
-/* Logout button styling */
-.user-info button {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-/* Style for the messages */
-.messages {
-    list-style-type: none;
-    padding: 0;
-    margin: 10px 0;
-    color: red; /* Change this color based on your message type */
-}
-
-/* Individual message items */
-.messages li {
-    margin-bottom: 5px;
-}
-
-/* Styling for message tags, like error or success */
-.messages li.error {
-    color: red;
-}
-
-.messages li.success {
-    color: green;
-}
-
-/* Basic button styling (for general use) */
-button {
-    background-color: #388149;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 14px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-/* Basic styling for links */
-a {
-    color: #007BFF;
-    text-decoration: none;
-}
-
 header a {
     color: white;
     text-decoration: none;
     padding: 5px;
 }
 
-body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem; }
-    .card { border: 1px solid #ddd; border-radius: 12px; padding: 1.25rem; max-width: 720px; }
-    .row { margin: 1.5rem 0; }
-    .btn { display: inline-block; padding: .5rem .9rem; border-radius: 8px; text-decoration: none; border: 1px solid #ccc; }
-    .btn-primary { border-color: #2b6cb0; }
+/* ══════════════════════════════════════════
+   MESSAGES
+══════════════════════════════════════════ */
+.messages { list-style-type: none; padding: 0; margin: 10px 0; }
+.messages li { margin-bottom: 5px; }
+.messages li.error { color: red; }
+.messages li.success { color: green; }
 
-/* Landing page header styling */
-.landing-header {
-    text-align: center;
-    width: 100%;
+/* ══════════════════════════════════════════
+   2FA CARD (home page)
+══════════════════════════════════════════ */
+.card { border: 1px solid #ddd; border-radius: 12px; padding: 1.25rem; max-width: 720px; }
+.row { margin: 1.5rem 0; }
+.btn { display: inline-block; padding: .5rem .9rem; border-radius: 8px; text-decoration: none; border: 1px solid #ccc; }
+.btn-primary { border-color: #2b6cb0; }
+
+/* ══════════════════════════════════════════
+   LANDING PAGE
+══════════════════════════════════════════ */
+.landing-page {
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.landing-header h1 {
-    font-size: 2.5em;
+.auth-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-top: 3rem;
+    justify-content: center;
 }
 
-.landing-header h2 {
-    margin: 10px 0 0 0;
-    font-size: 1.5em;
+.landing-page .menu-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
 }
 
-/* PreFlight Home styling */
+/* ══════════════════════════════════════════
+   HOME PAGE
+══════════════════════════════════════════ */
 .preflight-home {
     max-width: 600px;
     margin: 0 auto;
@@ -177,10 +130,8 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     text-decoration: none;
     font-size: 1.1rem;
     font-weight: 500;
-    transition: all 0.3s ease;
 }
 
-/* User section styling */
 .user-section {
     margin-top: 2.5rem;
     margin-bottom: 1.5rem;
@@ -206,9 +157,7 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     color: #004b9b;
 }
 
-.logout-form {
-    margin: 0;
-}
+.logout-form { margin: 0; }
 
 .logout-btn {
     background-color: #004b9b;
@@ -218,101 +167,33 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     cursor: pointer;
     border-radius: 5px;
     font-size: 0.95rem;
-    transition: all 0.3s ease;
+    margin: 0;
 }
 
-/* Landing page styling */
-.landing-page {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.auth-buttons {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    margin-top: 3rem;
-    justify-content: center;
-}
-
-.landing-page .menu-button {
+/* ══════════════════════════════════════════
+   SHARED BUTTONS
+══════════════════════════════════════════ */
+.back-btn {
+    display: inline-block;
     padding: 0.75rem 1.5rem;
-    font-size: 0.95rem;
-}
-
-/* Aircraft Profiles Page styling */
-.aircraft-profiles-page {
-    max-width: 600px;
-    margin: 2rem 0;
-    padding: 0 20px;
-}
-
-/* Generic inner page container */
-.page-container {
-    max-width: 600px;
-    margin: 2rem 0;
-    padding: 0 20px;
-}
-
-/* Page header subtitle for extended header box */
-.page-title {
-    margin-top: 0;
-    margin-bottom: 2rem;
+    border: 2px solid #004b9b;
+    border-radius: 8px;
+    background-color: #f8f9fa;
     color: #004b9b;
-    font-size: 1.8em;
+    text-decoration: none;
+    font-weight: 500;
 }
 
-.aircraft-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.aircraft-card {
-    border: 2px solid #333;
-    border-radius: 4px;
-    padding: 1rem;
-    background-color: white;
-}
-
-.aircraft-card-title {
-    font-weight: bold;
-    text-align: center;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #333;
-    margin-bottom: 0.5rem;
+.save-btn {
+    padding: 0.75rem 2rem;
+    background-color: #004b9b;
+    color: white;
+    border: 2px solid #004b9b;
+    border-radius: 8px;
     font-size: 0.95rem;
-}
-
-.aircraft-card-item {
-    padding: 0.5rem 0;
-    font-size: 0.85rem;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-}
-
-.aircraft-card-item:last-child {
-    border-bottom: none;
-}
-
-.aircraft-card-toggle {
-    background-color: #f0f0f0;
-    padding: 0.5rem;
-    text-align: center;
+    font-weight: 500;
     cursor: pointer;
-    font-weight: bold;
-}
-
-.add-aircraft-box {
-    display: none;
-}
-
-.add-aircraft-section {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    display: flex;
-    justify-content: flex-start;
+    margin: 0;
 }
 
 .add-aircraft-btn {
@@ -327,11 +208,21 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     border-radius: 8px;
     background-color: #f8f9fa;
     cursor: pointer;
-    transition: all 0.3s ease;
 }
 
-.add-aircraft-btn:hover {
-    background-color: #e2e8f0;
+/* ══════════════════════════════════════════
+   PAGE CONTAINERS
+══════════════════════════════════════════ */
+.aircraft-profiles-page {
+    max-width: 600px;
+    margin: 2rem 0;
+    padding: 0 20px;
+}
+
+.page-container {
+    max-width: 600px;
+    margin: 2rem 0;
+    padding: 0 20px;
 }
 
 .back-button-container {
@@ -340,21 +231,149 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     margin-top: 2rem;
 }
 
-.back-btn {
-    padding: 0.75rem 1.5rem;
-    border: 2px solid #004b9b;
-    border-radius: 8px;
-    background-color: #f8f9fa;
-    color: #004b9b;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
+.add-aircraft-section {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: flex-start;
 }
 
-.back-btn:hover {
-    background-color: #e2e8f0;
+/* ══════════════════════════════════════════
+   AIRCRAFT PROFILE CARDS
+══════════════════════════════════════════ */
+#aircraft-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    max-width: 480px;
+    align-items: start;
 }
-/* ── Aircraft form (add / edit) ── */
+
+.aircraft-card {
+    border: 2px solid #004b9b;
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.aircraft-card-main {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    line-height: 0;
+}
+
+.aircraft-card-header {
+    background-color: #004b9b;
+    color: white;
+    padding: 0.35rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.1rem;
+    line-height: 1.3;
+}
+
+.aircraft-card-reg {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: white;
+}
+
+.aircraft-card-model {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.85);
+}
+
+.aircraft-dropdown {
+    border-top: 1px solid #004b9b;
+    background: white;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.85rem;
+    color: #004b9b;
+    text-decoration: none;
+    border-bottom: 1px solid #e2e8f0;
+    font-weight: 500;
+}
+
+.dropdown-item:last-of-type {
+    border-bottom: none;
+}
+
+.aircraft-card-toggle {
+    background: #f8f9fa;
+    border: none;
+    border-top: 1px solid #004b9b;
+    width: 100%;
+    padding: 0.25rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: #004b9b;
+    text-align: center;
+    margin: 0;
+    border-radius: 0;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.aircraft-card-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    background-color: #f8f9fa;
+    border-top: 1px solid #004b9b;
+}
+
+.card-action-btn {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    border: 2px solid transparent;
+    display: inline-block;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.edit-btn {
+    background-color: #f8f9fa;
+    color: #004b9b;
+    border-color: #004b9b;
+}
+
+.delete-btn {
+    background-color: #f8f9fa;
+    color: #c0392b;
+    border-color: #c0392b;
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.delete-form {
+    margin: 0;
+    display: flex;
+}
+
+.no-aircraft-msg {
+    color: #888;
+    font-size: 0.95rem;
+}
+
+/* ══════════════════════════════════════════
+   AIRCRAFT FORM (ADD / EDIT)
+══════════════════════════════════════════ */
 .aircraft-form-table {
     border: 2px solid #004b9b;
     border-radius: 8px;
@@ -394,168 +413,6 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     background: white;
 }
 
-.form-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 480px;
-    margin-top: 1.5rem;
-}
-
-.save-btn {
-    padding: 0.75rem 2rem;
-    background-color: #004b9b;
-    color: white;
-    border: 2px solid #004b9b;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 0;
-}
-
-.save-btn:hover {
-    background-color: #003580;
-    border-color: #003580;
-}
-
-.form-errors {
-    margin-bottom: 1rem;
-}
-
-.error-msg {
-    color: #c0392b;
-    font-size: 0.875rem;
-    margin: 0.25rem 0;
-}
-
-/* ── Aircraft profile cards ── */
-#aircraft-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.aircraft-card {
-    border: 2px solid #004b9b;
-    border-radius: 8px;
-    overflow: hidden;
-    background: white;
-    max-width: 480px;
-}
-
-.aircraft-card-header {
-    background-color: #004b9b;
-    color: white;
-    padding: 0.6rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.aircraft-card-reg {
-    font-weight: 700;
-    font-size: 1rem;
-}
-
-.aircraft-card-model {
-    font-size: 0.875rem;
-    opacity: 0.85;
-}
-
-.aircraft-card-body {
-    border-bottom: 1px solid #004b9b;
-}
-
-.aircraft-card-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.aircraft-card-item:last-child {
-    border-bottom: none;
-}
-
-.item-label {
-    color: #555;
-}
-
-.item-value {
-    font-weight: 500;
-    color: #004b9b;
-}
-
-.aircraft-card-actions {
-    display: flex;
-    gap: 0.5rem;
-    padding: 0.6rem 1rem;
-    background-color: #f8f9fa;
-}
-
-.card-action-btn {
-    padding: 0.4rem 1.1rem;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: none;
-    border: 2px solid transparent;
-    transition: all 0.2s ease;
-}
-
-.edit-btn {
-    background-color: #f8f9fa;
-    color: #004b9b;
-    border-color: #004b9b;
-}
-
-.edit-btn:hover {
-    background-color: #004b9b;
-    color: white;
-}
-
-.delete-form {
-    margin: 0;
-}
-
-.delete-btn {
-    background-color: #f8f9fa;
-    color: #c0392b;
-    border-color: #c0392b;
-    margin: 0;
-    padding: 0.4rem 1.1rem;
-    font-size: 0.85rem;
-}
-
-.delete-btn:hover {
-    background-color: #c0392b;
-    color: white;
-}
-
-.no-aircraft-msg {
-    color: #888;
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
-}
-
-/* ── Form unit labels & section header ── */
-.input-unit {
-    flex: 0 0 auto;
-    padding: 0 0.75rem;
-    font-size: 0.8rem;
-    color: #666;
-    background-color: #f0f4f8;
-    border-left: 1px solid #004b9b;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-}
-
 .form-section-header {
     background-color: #004b9b;
     color: white;
@@ -565,9 +422,25 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     text-transform: uppercase;
     padding: 0.4rem 0.85rem;
     border-bottom: 1px solid #003580;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* ── Unit select dropdowns ── */
+.input-unit {
+    flex: 0 0 auto;
+    padding: 0 0.75rem;
+    font-size: 0.8rem;
+    color: #555;
+    background-color: #f0f4f8;
+    border-left: 1px solid #004b9b;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    min-width: 4.5rem;
+    justify-content: center;
+}
+
 .unit-select {
     flex: 0 0 auto;
     border: none;
@@ -584,16 +457,6 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     align-self: stretch;
 }
 
-.unit-select:focus {
-    background-color: #e2eaf4;
-}
-
-.form-section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .unit-select-header {
     background-color: #003580;
     color: white;
@@ -601,7 +464,40 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-seri
     min-width: 4.5rem;
 }
 
-.input-unit {
-    min-width: 4.5rem;
-    justify-content: center;
+.unit-select-header-static {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+    background-color: #003580;
+    padding: 0.3rem 0.75rem;
+    border-left: 1px solid rgba(255,255,255,0.3);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 480px;
+    margin-top: 1.5rem;
+}
+
+.form-errors { margin-bottom: 1rem; }
+
+.error-msg {
+    color: #c0392b;
+    font-size: 0.875rem;
+    margin: 0.25rem 0;
+}
+
+/* ══════════════════════════════════════════
+   READ-ONLY VIEW PAGE
+══════════════════════════════════════════ */
+.view-value {
+    flex: 1;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.9rem;
+    color: #333;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
 }

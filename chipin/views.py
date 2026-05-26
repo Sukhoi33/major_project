@@ -61,6 +61,13 @@ def add_aircraft(request):
 
 
 @login_required
+def view_aircraft(request, pk):
+    """Read-only view of an aircraft profile."""
+    aircraft = get_object_or_404(Aircraft, pk=pk, user=request.user)
+    return render(request, 'chipin/view_aircraft.html', {'aircraft': aircraft})
+
+
+@login_required
 def edit_aircraft(request, pk):
     """Edit an existing aircraft profile (must belong to the logged-in user)."""
     aircraft = get_object_or_404(Aircraft, pk=pk, user=request.user)

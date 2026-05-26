@@ -9,6 +9,7 @@ urlpatterns = [
     path('sensitive/', views.sensitive_area, name='sensitive'),
     path('aircraft-profiles/', views.aircraft_profiles, name='aircraft_profiles'),
     path('aircraft-profiles/add/', views.add_aircraft, name='add_aircraft'),
+    path('aircraft-profiles/<int:pk>/', views.view_aircraft, name='view_aircraft'),
     path('aircraft-profiles/<int:pk>/edit/', views.edit_aircraft, name='edit_aircraft'),
     path('aircraft-profiles/<int:pk>/delete/', views.delete_aircraft, name='delete_aircraft'),
     path('new-flight/', views.new_flight, name='new_flight'),

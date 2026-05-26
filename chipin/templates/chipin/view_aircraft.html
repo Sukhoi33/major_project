@@ -1,0 +1,112 @@
+{% extends 'chipin/base.html' %}
+{% load static %}
+{% block title %}{{ aircraft.registration }} — Essential Info{% endblock %}
+{% block header_content %}<div class="header-page-title">{{ aircraft.registration }} — {{ aircraft.model }}</div>{% endblock %}
+
+{% block content %}
+    <div class="page-container">
+        <div class="aircraft-form-table">
+            <div class="form-row">
+                <label>Aircraft Registration</label>
+                <div class="view-value">{{ aircraft.registration }}</div>
+            </div>
+            <div class="form-row">
+                <label>Aircraft Model</label>
+                <div class="view-value">{{ aircraft.model }}</div>
+            </div>
+            <div class="form-row">
+                <label>Fuel consumption rate</label>
+                <div class="view-value">{{ aircraft.fuel_consumption }}</div>
+                <span class="input-unit">{{ aircraft.fuel_unit }}</span>
+            </div>
+
+            <div class="form-section-header">
+                <span>V-Speeds</span>
+                <span class="unit-select-header-static">{{ aircraft.speed_unit }}</span>
+            </div>
+
+            {% if aircraft.vso %}
+            <div class="form-row">
+                <label>V<sub>SO</sub> — Stall, landing config</label>
+                <div class="view-value">{{ aircraft.vso }}</div>
+                <span class="input-unit">{{ aircraft.speed_unit }}</span>
+            </div>
+            {% endif %}
+            {% if aircraft.vs1 %}
+            <div class="form-row">
+                <label>V<sub>S1</sub> — Stall, clean</label>
+                <div class="view-value">{{ aircraft.vs1 }}</div>
+                <span class="input-unit">{{ aircraft.speed_unit }}</span>
+            </div>
+            {% endif %}
+            {% if aircraft.vr %}
+            <div class="form-row">
+                <label>V<sub>R</sub> — Rotation</label>
+                <div class="view-value">{{ aircraft.vr }}</div>
+                <span class="input-unit">{{ aircraft.speed_unit }}</span>
+            </div>
+            {% endif %}
+            {% if aircraft.vx %}
+            <div class="form-row">
+                <label>V<sub>X</sub> — Best angle of climb</label>
+                <div class="view-value">{{ aircraft.vx }}</div>
+                <span class="input-unit">{{ aircraft.speed_unit }}</span>
+            </div>
+            {% endif %}
+            {% if aircraft.vy %}
+            <div class="form-row">
+                <label>V<sub>Y</sub> — Best rate of climb</label>
+                <div class="view-value">{{ aircraft.vy }}</div>
+                <span class="input-unit">{{ aircraft.speed_unit }}</span>
+            </div>
+            {% endif %}
+            {% if aircraft.vfe %}
+            <div class="form-row">
+                <label>V<sub>FE</sub> — Max flap extended</label>
+                <div class="view-value">{{ aircraft.vfe }}</div>
+                <span class="input-unit">{{ aircraft.speed_unit }}</span>
+            </div>
+            {% endif %}
+            {% if aircraft.vno %}
+            <div class="form-row">
+                <label>V<sub>NO</sub> — Max structural cruising</label>
+                <div class="view-value">{{ aircraft.vno }}</div>
+                <span class="input-unit">{{ aircraft.speed_unit }}</span>
+            </div>
+            {% endif %}
+            {% if aircraft.vne %}
+            <div class="form-row">
+                <label>V<sub>NE</sub> — Never exceed</label>
+                <div class="view-value">{{ aircraft.vne }}</div>
+                <span class="input-unit">{{ aircraft.speed_unit }}</span>
+            </div>
+            {% endif %}
+            {% if aircraft.va %}
+            <div class="form-row">
+                <label>V<sub>A</sub> — Manoeuvring</label>
+                <div class="view-value">{{ aircraft.va }}</div>
+                <span class="input-unit">{{ aircraft.speed_unit }}</span>
+            </div>
+            {% endif %}
+            {% if aircraft.vlo %}
+            <div class="form-row">
+                <label>V<sub>LO</sub> — Max gear operating</label>
+                <div class="view-value">{{ aircraft.vlo }}</div>
+                <span class="input-unit">{{ aircraft.speed_unit }}</span>
+            </div>
+            {% endif %}
+            {% if aircraft.vle %}
+            <div class="form-row">
+                <label>V<sub>LE</sub> — Max gear extended</label>
+                <div class="view-value">{{ aircraft.vle }}</div>
+                <span class="input-unit">{{ aircraft.speed_unit }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-actions">
+            <a href="{% url 'chipin:aircraft_profiles' %}" class="back-btn">Back</a>
+            <a href="{% url 'chipin:edit_aircraft' aircraft.pk %}" class="save-btn" style="text-decoration:none; text-align:center;">Edit</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,7 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 from django_otp import devices_for_user
-from django_otp.decorators import otp_required  
+from django_otp.decorators import otp_required
+
+from .models import Aircraft
+from .forms import AircraftForm
 
 
 def landing(request):
@@ -36,16 +40,47 @@ def home(request):
 
 @login_required
 def aircraft_profiles(request):
-    """Aircraft Profiles page."""
-    context = {"user": request.user}
-    return render(request, 'chipin/aircraft_profiles.html', context)
+    """List all aircraft belonging to the logged-in user."""
+    aircraft_list = Aircraft.objects.filter(user=request.user)
+    return render(request, 'chipin/aircraft_profiles.html', {'aircraft_list': aircraft_list})
 
 
 @login_required
 def add_aircraft(request):
-    """Add Aircraft page."""
-    context = {"user": request.user}
-    return render(request, 'chipin/add_aircraft.html', context)
+    """Add a new aircraft profile."""
+    if request.method == 'POST':
+        form = AircraftForm(request.POST)
+        if form.is_valid():
+            aircraft = form.save(commit=False)
+            aircraft.user = request.user
+            aircraft.save()
+            return redirect('chipin:aircraft_profiles')
+    else:
+        form = AircraftForm()
+    return render(request, 'chipin/add_aircraft.html', {'form': form})
+
+
+@login_required
+def edit_aircraft(request, pk):
+    """Edit an existing aircraft profile (must belong to the logged-in user)."""
+    aircraft = get_object_or_404(Aircraft, pk=pk, user=request.user)
+    if request.method == 'POST':
+        form = AircraftForm(request.POST, instance=aircraft)
+        if form.is_valid():
+            form.save()
+            return redirect('chipin:aircraft_profiles')
+    else:
+        form = AircraftForm(instance=aircraft)
+    return render(request, 'chipin/edit_aircraft.html', {'form': form, 'aircraft': aircraft})
+
+
+@login_required
+@require_POST
+def delete_aircraft(request, pk):
+    """Delete an aircraft profile (must belong to the logged-in user)."""
+    aircraft = get_object_or_404(Aircraft, pk=pk, user=request.user)
+    aircraft.delete()
+    return redirect('chipin:aircraft_profiles')
 
 
 @login_required

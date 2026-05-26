@@ -17,20 +17,19 @@
                     <div class="aircraft-card-body">
                         <div class="aircraft-card-item">
                             <span class="item-label">Fuel consumption rate</span>
-                            <span class="item-value">{{ aircraft.fuel_consumption }}</span>
+                            <span class="item-value">{{ aircraft.fuel_consumption }} L/hr</span>
                         </div>
-                        <div class="aircraft-card-item">
-                            <span class="item-label">Essential speed #1</span>
-                            <span class="item-value">{{ aircraft.speed1 }}</span>
-                        </div>
-                        <div class="aircraft-card-item">
-                            <span class="item-label">Essential speed #2</span>
-                            <span class="item-value">{{ aircraft.speed2 }}</span>
-                        </div>
-                        <div class="aircraft-card-item">
-                            <span class="item-label">Essential speed #3</span>
-                            <span class="item-value">{{ aircraft.speed3 }}</span>
-                        </div>
+                        {% if aircraft.vso %}<div class="aircraft-card-item"><span class="item-label">V<sub>SO</sub> — Stall, landing config</span><span class="item-value">{{ aircraft.vso }} {{ aircraft.speed_unit }}</span></div>{% endif %}
+                        {% if aircraft.vs1 %}<div class="aircraft-card-item"><span class="item-label">V<sub>S1</sub> — Stall, clean</span><span class="item-value">{{ aircraft.vs1 }} {{ aircraft.speed_unit }}</span></div>{% endif %}
+                        {% if aircraft.vr  %}<div class="aircraft-card-item"><span class="item-label">V<sub>R</sub> — Rotation</span><span class="item-value">{{ aircraft.vr }} {{ aircraft.speed_unit }}</span></div>{% endif %}
+                        {% if aircraft.vx  %}<div class="aircraft-card-item"><span class="item-label">V<sub>X</sub> — Best angle of climb</span><span class="item-value">{{ aircraft.vx }} {{ aircraft.speed_unit }}</span></div>{% endif %}
+                        {% if aircraft.vy  %}<div class="aircraft-card-item"><span class="item-label">V<sub>Y</sub> — Best rate of climb</span><span class="item-value">{{ aircraft.vy }} {{ aircraft.speed_unit }}</span></div>{% endif %}
+                        {% if aircraft.vfe %}<div class="aircraft-card-item"><span class="item-label">V<sub>FE</sub> — Max flap extended</span><span class="item-value">{{ aircraft.vfe }} {{ aircraft.speed_unit }}</span></div>{% endif %}
+                        {% if aircraft.vno %}<div class="aircraft-card-item"><span class="item-label">V<sub>NO</sub> — Max structural cruising</span><span class="item-value">{{ aircraft.vno }} {{ aircraft.speed_unit }}</span></div>{% endif %}
+                        {% if aircraft.vne %}<div class="aircraft-card-item"><span class="item-label">V<sub>NE</sub> — Never exceed</span><span class="item-value">{{ aircraft.vne }} {{ aircraft.speed_unit }}</span></div>{% endif %}
+                        {% if aircraft.va  %}<div class="aircraft-card-item"><span class="item-label">V<sub>A</sub> — Manoeuvring</span><span class="item-value">{{ aircraft.va }} {{ aircraft.speed_unit }}</span></div>{% endif %}
+                        {% if aircraft.vlo %}<div class="aircraft-card-item"><span class="item-label">V<sub>LO</sub> — Max gear operating</span><span class="item-value">{{ aircraft.vlo }} {{ aircraft.speed_unit }}</span></div>{% endif %}
+                        {% if aircraft.vle %}<div class="aircraft-card-item"><span class="item-label">V<sub>LE</sub> — Max gear extended</span><span class="item-value">{{ aircraft.vle }} {{ aircraft.speed_unit }}</span></div>{% endif %}
                     </div>
                     <div class="aircraft-card-actions">
                         <a href="{% url 'chipin:edit_aircraft' aircraft.pk %}" class="card-action-btn edit-btn">Edit</a>

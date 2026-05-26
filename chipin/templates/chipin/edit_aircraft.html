@@ -9,74 +9,83 @@
             <div class="aircraft-form-table">
                 <div class="form-row">
                     <label for="registration">Aircraft Registration</label>
-                    <input type="text" id="registration" name="registration" value="{{ form.registration.value|default:aircraft.registration }}" required>
+                    <input type="text" id="registration" name="registration" value="{{ form.registration.value|default:aircraft.registration|default:'' }}" required>
                 </div>
                 <div class="form-row">
                     <label for="model">Aircraft Model</label>
-                    <input type="text" id="model" name="model" value="{{ form.model.value|default:aircraft.model }}" required>
+                    <input type="text" id="model" name="model" value="{{ form.model.value|default:aircraft.model|default:'' }}" required>
                 </div>
                 <div class="form-row">
                     <label for="fuel_consumption">Fuel consumption rate</label>
-                    <input type="number" step="0.1" id="fuel_consumption" name="fuel_consumption" value="{{ form.fuel_consumption.value|default:aircraft.fuel_consumption }}" required>
-                    <span class="input-unit">L/hr</span>
+                    <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="fuel_consumption" name="fuel_consumption" value="{{ form.fuel_consumption.value|default:aircraft.fuel_consumption }}" required class="numeric-input">
+                    <select name="fuel_unit" class="unit-select">
+                        <option value="L/hr" {% if aircraft.fuel_unit == 'L/hr' %}selected{% endif %}>L/hr</option>
+                        <option value="gal/hr" {% if aircraft.fuel_unit == 'gal/hr' %}selected{% endif %}>gal/hr</option>
+                    </select>
                 </div>
 
-                <div class="form-section-header">V-Speeds</div>
+                <div class="form-section-header">
+                    <span>V-Speeds</span>
+                    <select name="speed_unit" id="speed_unit" class="unit-select unit-select-header">
+                        <option value="kts" {% if aircraft.speed_unit == 'kts' %}selected{% endif %}>kts</option>
+                        <option value="km/h" {% if aircraft.speed_unit == 'km/h' %}selected{% endif %}>km/h</option>
+                    </select>
+                </div>
 
                 <div class="form-row">
                     <label for="vso">V<sub>SO</sub> — Stall, landing config</label>
-                    <input type="number" step="1" id="vso" name="vso" value="{{ form.vso.value|default:aircraft.vso }}">
-                    <span class="input-unit">kts</span>
+                    <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="vso" name="vso" value="{{ form.vso.value|default:aircraft.vso|default:'' }}" class="numeric-input">
+                    <span class="input-unit speed-unit-label">{{ aircraft.speed_unit|default:'kts' }}</span>
                 </div>
                 <div class="form-row">
                     <label for="vs1">V<sub>S1</sub> — Stall, clean</label>
-                    <input type="number" step="1" id="vs1" name="vs1" value="{{ form.vs1.value|default:aircraft.vs1 }}">
-                    <span class="input-unit">kts</span>
+                    <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="vs1" name="vs1" value="{{ form.vs1.value|default:aircraft.vs1|default:'' }}" class="numeric-input">
+                    <span class="input-unit speed-unit-label">{{ aircraft.speed_unit|default:'kts' }}</span>
                 </div>
                 <div class="form-row">
                     <label for="vr">V<sub>R</sub> — Rotation</label>
-                    <input type="number" step="1" id="vr" name="vr" value="{{ form.vr.value|default:aircraft.vr }}">
-                    <span class="input-unit">kts</span>
+                    <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="vr" name="vr" value="{{ form.vr.value|default:aircraft.vr|default:'' }}" class="numeric-input">
+                    <span class="input-unit speed-unit-label">{{ aircraft.speed_unit|default:'kts' }}</span>
                 </div>
                 <div class="form-row">
                     <label for="vx">V<sub>X</sub> — Best angle of climb</label>
-                    <input type="number" step="1" id="vx" name="vx" value="{{ form.vx.value|default:aircraft.vx }}">
-                    <span class="input-unit">kts</span>
+                    <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="vx" name="vx" value="{{ form.vx.value|default:aircraft.vx|default:'' }}" class="numeric-input">
+                    <span class="input-unit speed-unit-label">{{ aircraft.speed_unit|default:'kts' }}</span>
                 </div>
                 <div class="form-row">
                     <label for="vy">V<sub>Y</sub> — Best rate of climb</label>
-                    <input type="number" step="1" id="vy" name="vy" value="{{ form.vy.value|default:aircraft.vy }}">
-                    <span class="input-unit">kts</span>
+                    <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="vy" name="vy" value="{{ form.vy.value|default:aircraft.vy|default:'' }}" class="numeric-input">
+                    <span class="input-unit speed-unit-label">{{ aircraft.speed_unit|default:'kts' }}</span>
                 </div>
                 <div class="form-row">
                     <label for="vfe">V<sub>FE</sub> — Max flap extended</label>
-                    <input type="number" step="1" id="vfe" name="vfe" value="{{ form.vfe.value|default:aircraft.vfe }}">
-                    <span class="input-unit">kts</span>
+                    <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="vfe" name="vfe" value="{{ form.vfe.value|default:aircraft.vfe|default:'' }}" class="numeric-input">
+                    <span class="input-unit speed-unit-label">{{ aircraft.speed_unit|default:'kts' }}</span>
                 </div>
                 <div class="form-row">
                     <label for="vno">V<sub>NO</sub> — Max structural cruising</label>
-                    <input type="number" step="1" id="vno" name="vno" value="{{ form.vno.value|default:aircraft.vno }}">
-                    <span class="input-unit">kts</span>
+                    <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="vno" name="vno" value="{{ form.vno.value|default:aircraft.vno|default:'' }}" class="numeric-input">
+                    <span class="input-unit speed-unit-label">{{ aircraft.speed_unit|default:'kts' }}</span>
                 </div>
                 <div class="form-row">
                     <label for="vne">V<sub>NE</sub> — Never exceed</label>
-                    <input type="number" step="1" id="vne" name="vne" value="{{ form.vne.value|default:aircraft.vne }}">
-                    <span class="input-unit">kts</span>
+                    <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="vne" name="vne" value="{{ form.vne.value|default:aircraft.vne|default:'' }}" class="numeric-input">
+                    <span class="input-unit speed-unit-label">{{ aircraft.speed_unit|default:'kts' }}</span>
                 </div>
                 <div class="form-row">
                     <label for="va">V<sub>A</sub> — Manoeuvring</label>
-                    <input type="number" step="1" id="va" name="va" value="{{ form.va.value|default:aircraft.va }}">
-                    <span class="input-unit">kts</span>
+                    <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="va" name="va" value="{{ form.va.value|default:aircraft.va|default:'' }}" class="numeric-input">
+                    <span class="input-unit speed-unit-label">{{ aircraft.speed_unit|default:'kts' }}</span>
                 </div>
                 <div class="form-row">
                     <label for="vlo">V<sub>LO</sub> — Max gear operating</label>
-                    <input type="number" step="1" id="vlo" name="vlo" value="{{ form.vlo.value|default:aircraft.vlo }}">
-                    <span class="input-unit">kts</span>
+                    <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="vlo" name="vlo" value="{{ form.vlo.value|default:aircraft.vlo|default:'' }}" class="numeric-input">
+                    <span class="input-unit speed-unit-label">{{ aircraft.speed_unit|default:'kts' }}</span>
                 </div>
                 <div class="form-row">
                     <label for="vle">V<sub>LE</sub> — Max gear extended</label>
-                    <input type="number" step="1" id="vle" name="vle" value="{{ form.vle.value|default:aircraft.vle }}">
-                    <span class="input-unit">kts</span>
+                    <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="vle" name="vle" value="{{ form.vle.value|default:aircraft.vle|default:'' }}" class="numeric-input">
+                    <span class="input-unit speed-unit-label">{{ aircraft.speed_unit|default:'kts' }}</span>
                 </div>
             </div>
 
@@ -96,4 +105,27 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.querySelectorAll('.numeric-input').forEach(function(input) {
+            input.addEventListener('keydown', function(e) {
+                const allowed = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','.'];
+                if (allowed.includes(e.key)) return;
+                if (e.key >= '0' && e.key <= '9') return;
+                e.preventDefault();
+            });
+            input.addEventListener('input', function() {
+                let val = this.value.replace(/[^0-9.]/g, '');
+                const parts = val.split('.');
+                if (parts.length > 2) val = parts[0] + '.' + parts.slice(1).join('');
+                this.value = val;
+            });
+        });
+
+        document.getElementById('speed_unit').addEventListener('change', function() {
+            document.querySelectorAll('.speed-unit-label').forEach(function(el) {
+                el.textContent = document.getElementById('speed_unit').value;
+            });
+        });
+    </script>
 {% endblock %}

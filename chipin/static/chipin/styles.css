@@ -501,3 +501,78 @@ header a {
     display: flex;
     align-items: center;
 }
+
+/* ══════════════════════════════════════════
+   DOCUMENT LIST PAGES
+══════════════════════════════════════════ */
+.doc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 480px;
+    margin-bottom: 2rem;
+}
+
+.doc-add-btn {
+    display: inline-block;
+    padding: 0.65rem 1rem;
+    background-color: #f8f9fa;
+    border: 2px solid #004b9b;
+    border-radius: 8px;
+    color: #004b9b;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+    align-self: flex-start;
+}
+
+.doc-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.85rem;
+    border: 2px solid #004b9b;
+    border-radius: 8px;
+    background: white;
+    gap: 1rem;
+}
+
+.doc-name {
+    flex: 1;
+    color: #004b9b;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.doc-name:hover {
+    text-decoration: underline;
+}
+
+.doc-delete-btn {
+    background-color: #f8f9fa;
+    color: #c0392b;
+    border: 2px solid #c0392b;
+    border-radius: 6px;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.no-docs-msg {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.file-hint {
+    font-size: 0.75rem;
+    color: #888;
+    font-weight: 400;
+}

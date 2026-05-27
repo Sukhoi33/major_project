@@ -17,9 +17,9 @@
                         </div>
                     </a>
                     <div class="aircraft-dropdown" id="dropdown-{{ aircraft.pk }}" style="display:none;">
-                        <a href="#" class="dropdown-item">Manuals &gt;</a>
-                        <a href="#" class="dropdown-item">Checklists &gt;</a>
-                        <a href="#" class="dropdown-item">Maintenance Releases &gt;</a>
+                        <a href="{% url 'chipin:document_list' aircraft.pk 'manual' %}" class="dropdown-item">Manuals &gt;</a>
+                        <a href="{% url 'chipin:document_list' aircraft.pk 'checklist' %}" class="dropdown-item">Checklists &gt;</a>
+                        <a href="{% url 'chipin:document_list' aircraft.pk 'maintenance' %}" class="dropdown-item">Maintenance Releases &gt;</a>
                         <a href="{% url 'chipin:view_aircraft' aircraft.pk %}" class="dropdown-item">Essential Info &gt;</a>
                     </div>
                     <button class="aircraft-card-toggle" onclick="toggleDropdown({{ aircraft.pk }}, this)" aria-label="Toggle menu">&#x2228;</button>

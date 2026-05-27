@@ -1,0 +1,27 @@
+{% extends 'chipin/base.html' %}
+{% load static %}
+{% block title %}{{ aircraft.registration }} — Maintenance Releases{% endblock %}
+{% block header_content %}<div class="header-page-title">{{ aircraft.registration }} — Maintenance Releases</div>{% endblock %}
+{% block content %}
+<div class="page-container">
+    <div class="doc-list">
+        <a href="{% url 'chipin:add_document' aircraft.pk 'maintenance' %}" class="doc-add-btn">+ Add a release</a>
+        {% if documents %}
+            {% for doc in documents %}
+            <div class="doc-row">
+                <a href="{{ doc.file.url }}" target="_blank" class="doc-name">{% if doc.is_pdf %}📄{% else %}🖼{% endif %} {{ doc.name }}</a>
+                <form method="post" action="{% url 'chipin:delete_document' aircraft.pk 'maintenance' doc.pk %}" onsubmit="return confirm('Delete {{ doc.name }}?')">
+                    {% csrf_token %}
+                    <button type="submit" class="doc-delete-btn">Delete</button>
+                </form>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-docs-msg">No maintenance releases uploaded yet.</p>
+        {% endif %}
+    </div>
+    <div class="back-button-container">
+        <a href="{% url 'chipin:aircraft_profiles' %}" class="back-btn">Back</a>
+    </div>
+</div>
+{% endblock %}

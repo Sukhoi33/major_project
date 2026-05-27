@@ -1,0 +1,30 @@
+{% extends 'chipin/base.html' %}
+{% load static %}
+{% block title %}{{ aircraft.registration }} — Add Maintenance Release{% endblock %}
+{% block header_content %}<div class="header-page-title">{{ aircraft.registration }} — Add Maintenance Release</div>{% endblock %}
+{% block content %}
+<div class="page-container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="aircraft-form-table">
+            <div class="form-row">
+                <label for="id_name">Name</label>
+                <input type="text" id="id_name" name="name" placeholder="e.g. 100hr inspection" value="{{ form.name.value|default:'' }}" required>
+            </div>
+            <div class="form-row">
+                <label for="id_file">File <span class="file-hint">(PDF or image)</span></label>
+                <input type="file" id="id_file" name="file" accept=".pdf,.jpg,.jpeg,.png,.gif,.webp" required style="padding: 0.5rem;">
+            </div>
+        </div>
+        {% if form.errors %}
+            <div class="form-errors">
+                {% for field in form %}{% for error in field.errors %}<p class="error-msg">{{ error }}</p>{% endfor %}{% endfor %}
+            </div>
+        {% endif %}
+        <div class="form-actions">
+            <a href="{% url 'chipin:document_list' aircraft.pk 'maintenance' %}" class="back-btn">Back</a>
+            <button type="submit" class="save-btn">Upload</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

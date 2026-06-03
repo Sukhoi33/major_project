@@ -15,11 +15,15 @@ urlpatterns = [
     path('aircraft-profiles/<int:pk>/edit/', views.edit_aircraft, name='edit_aircraft'),
     path('aircraft-profiles/<int:pk>/delete/', views.delete_aircraft, name='delete_aircraft'),
 
-    # Documents (checklists / maintenance / manuals)
+    # Documents
     path('aircraft-profiles/<int:pk>/docs/<str:doc_type>/', views.document_list, name='document_list'),
     path('aircraft-profiles/<int:pk>/docs/<str:doc_type>/add/', views.add_document, name='add_document'),
     path('aircraft-profiles/<int:pk>/docs/<str:doc_type>/<int:doc_pk>/delete/', views.delete_document, name='delete_document'),
 
+    # Flight logger
     path('new-flight/', views.new_flight, name='new_flight'),
+    path('flight/<int:pk>/current/', views.current_flight, name='current_flight'),
+    path('flight/<int:pk>/post-landing/', views.post_landing, name='post_landing'),
+    path('flight/<int:pk>/summary/', views.flight_summary, name='flight_summary'),
     path('flight-log/', views.flight_log, name='flight_log'),
 ]

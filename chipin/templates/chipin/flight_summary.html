@@ -1,0 +1,52 @@
+{% extends 'chipin/base.html' %}
+{% load static %}
+{% block title %}Flight Summary — {{ flight.display_name }}{% endblock %}
+{% block header_content %}<div class="header-page-title">Flight Summary</div>{% endblock %}
+
+{% block content %}
+<div class="page-container">
+
+    <div class="aircraft-form-table">
+        <div class="form-section-header">Flight</div>
+        <div class="form-row"><label>Flight Name</label><div class="view-value">{{ flight.display_name }}</div></div>
+        <div class="form-row"><label>Aircraft</label><div class="view-value">{% if flight.aircraft %}{{ flight.aircraft.registration }} — {{ flight.aircraft.model }}{% else %}{{ flight.aircraft_free|default:"—" }}{% endif %}</div></div>
+        <div class="form-row"><label>Pilot in Command</label><div class="view-value">{{ flight.pilot_in_command }}</div></div>
+        {% if flight.additional_crew %}
+        <div class="form-row"><label>Additional Crew</label><div class="view-value">{{ flight.additional_crew|join:", " }}</div></div>
+        {% endif %}
+        <div class="form-row"><label>Passengers</label><div class="view-value">{{ flight.passenger_count }}</div></div>
+
+        <div class="form-section-header">Route & Times</div>
+        <div class="form-row"><label>Take-Off Location</label><div class="view-value">{{ flight.departure }}</div></div>
+        <div class="form-row"><label>Actual Destination</label><div class="view-value">{{ flight.actual_destination }}</div></div>
+        <div class="form-row"><label>Start Time (UTC)</label><div class="view-value">{{ flight.start_time|date:"d/m/Y H:i:s" }}</div></div>
+        <div class="form-row"><label>End Time (UTC)</label><div class="view-value">{{ flight.end_time|date:"d/m/Y H:i:s" }}</div></div>
+
+        <div class="form-section-header">Fuel</div>
+        <div class="form-row"><label>Start Fuel</label><div class="view-value">{{ flight.start_fuel }} {{ flight.fuel_unit }}</div></div>
+        <div class="form-row"><label>End Fuel</label><div class="view-value">{{ flight.end_fuel }} {{ flight.fuel_unit }}</div></div>
+        <div class="form-row"><label>Fuel Used</label><div class="view-value">{{ flight.fuel_used }} {{ flight.fuel_unit }}</div></div>
+
+        <div class="form-section-header">Instruments</div>
+        <div class="form-row"><label>VDO Start</label><div class="view-value">{{ flight.vdo_start }}</div></div>
+        <div class="form-row"><label>VDO End</label><div class="view-value">{{ flight.vdo_end }}</div></div>
+        <div class="form-row"><label>VDO Total</label><div class="view-value">{{ flight.vdo_total }}</div></div>
+        <div class="form-row"><label>Airswitch Start</label><div class="view-value">{{ flight.airswitch_start }}</div></div>
+        <div class="form-row"><label>Airswitch End</label><div class="view-value">{{ flight.airswitch_end }}</div></div>
+        <div class="form-row"><label>Airswitch Total</label><div class="view-value">{{ flight.airswitch_total }}</div></div>
+
+        {% if flight.notes %}
+        <div class="form-section-header">Notes</div>
+        <div class="form-row" style="align-items:flex-start;">
+            <label style="padding-top:0.65rem;">Notes</label>
+            <div class="view-value" style="white-space:pre-wrap;">{{ flight.notes }}</div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-actions">
+        <a href="{% url 'chipin:flight_log' %}" class="back-btn">Flight Log</a>
+        <a href="{% url 'chipin:home' %}" class="back-btn">Home</a>
+    </div>
+</div>
+{% endblock %}

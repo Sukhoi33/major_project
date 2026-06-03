@@ -1,0 +1,78 @@
+{% extends 'chipin/base.html' %}
+{% load static %}
+{% block title %}Post-Landing{% endblock %}
+{% block header_content %}<div class="header-page-title">Post-Landing</div>{% endblock %}
+
+{% block content %}
+<div class="page-container">
+
+    {% if form.errors %}
+    <div class="form-errors">
+        {% for field in form %}{% for error in field.errors %}<p class="error-msg">{{ error }}</p>{% endfor %}{% endfor %}
+        {% for error in form.non_field_errors %}<p class="error-msg">{{ error }}</p>{% endfor %}
+    </div>
+    {% endif %}
+
+    <datalist id="location-list">
+        {% for l in locations %}<option value="{{ l.code }}">{% endfor %}
+    </datalist>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="aircraft-form-table">
+
+            <div class="form-section-header">Fuel & Instruments</div>
+
+            <div class="form-row">
+                <label for="id_end_fuel">End Fuel Quantity</label>
+                <input type="text" inputmode="decimal" id="id_end_fuel" name="end_fuel" value="{{ form.end_fuel.value|default:'' }}" class="numeric-input" required>
+                <span class="input-unit">{{ flight.fuel_unit|default:"L" }}</span>
+            </div>
+            <div class="form-row">
+                <label for="id_vdo_end">VDO Reading</label>
+                <input type="text" inputmode="decimal" id="id_vdo_end" name="vdo_end" value="{{ form.vdo_end.value|default:'' }}" class="numeric-input" required>
+            </div>
+            <div class="form-row">
+                <label for="id_airswitch_end">Airswitch Reading</label>
+                <input type="text" inputmode="decimal" id="id_airswitch_end" name="airswitch_end" value="{{ form.airswitch_end.value|default:'' }}" class="numeric-input" required>
+            </div>
+
+            <div class="form-section-header">Route</div>
+
+            <div class="form-row">
+                <label for="id_actual_destination">Actual Destination</label>
+                <input type="text" id="id_actual_destination" name="actual_destination" value="{{ form.actual_destination.value|default:flight.destination }}" list="location-list" autocomplete="off" required>
+            </div>
+
+            <div class="form-section-header">Notes</div>
+
+            <div class="form-row" style="align-items:flex-start;">
+                <label for="id_notes" style="padding-top:0.65rem;">Notes</label>
+                <textarea id="id_notes" name="notes" rows="4" style="flex:1; border:none; outline:none; padding:0.65rem; font-size:0.9rem; font-family:inherit; resize:vertical;">{{ form.notes.value|default:'' }}</textarea>
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+            <a href="{% url 'chipin:current_flight' flight.pk %}" class="back-btn">← In Flight</a>
+            <button type="submit" class="save-btn">Submit & Log</button>
+        </div>
+    </form>
+</div>
+
+<script>
+document.querySelectorAll('.numeric-input').forEach(function(input) {
+    input.addEventListener('keydown', function(e) {
+        const allowed = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','.'];
+        if (allowed.includes(e.key) || (e.key >= '0' && e.key <= '9')) return;
+        e.preventDefault();
+    });
+    input.addEventListener('input', function() {
+        let val = this.value.replace(/[^0-9.]/g, '');
+        const parts = val.split('.');
+        if (parts.length > 2) val = parts[0] + '.' + parts.slice(1).join('');
+        this.value = val;
+    });
+});
+</script>
+{% endblock %}

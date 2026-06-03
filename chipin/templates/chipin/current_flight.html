@@ -1,0 +1,29 @@
+{% extends 'chipin/base.html' %}
+{% load static %}
+{% block title %}Current Flight{% endblock %}
+{% block header_content %}<div class="header-page-title">{{ flight.departure }} → {{ flight.destination }}</div>{% endblock %}
+
+{% block content %}
+<div class="page-container">
+
+    <div class="flight-info-grid">
+        <div class="flight-info-card">
+            <div class="flight-info-card-header">Flight</div>
+            <div class="flight-info-row"><span>Name</span><span>{{ flight.display_name }}</span></div>
+            <div class="flight-info-row"><span>Aircraft</span><span>{% if flight.aircraft %}{{ flight.aircraft.registration }}{% else %}{{ flight.aircraft_free|default:"—" }}{% endif %}</span></div>
+            <div class="flight-info-row"><span>PIC</span><span>{{ flight.pilot_in_command }}</span></div>
+            {% if flight.additional_crew %}<div class="flight-info-row"><span>Crew</span><span>{{ flight.additional_crew|join:", " }}</span></div>{% endif %}
+            <div class="flight-info-row"><span>Passengers</span><span>{{ flight.passenger_count }}</span></div>
+            <div class="flight-info-row"><span>Departed</span><span>{{ flight.start_time|date:"H:i" }} UTC</span></div>
+            <div class="flight-info-row"><span>Start Fuel</span><span>{{ flight.start_fuel }} {{ flight.fuel_unit }}</span></div>
+            <div class="flight-info-row"><span>VDO</span><span>{{ flight.vdo_start }}</span></div>
+            <div class="flight-info-row"><span>Airswitch</span><span>{{ flight.airswitch_start }}</span></div>
+        </div>
+    </div>
+
+    <div class="form-actions" style="margin-top: 2rem;">
+        <a href="{% url 'chipin:new_flight' %}" class="back-btn">← Pre-Takeoff</a>
+        <a href="{% url 'chipin:post_landing' flight.pk %}" class="save-btn" style="text-decoration:none; text-align:center;">Land →</a>
+    </div>
+</div>
+{% endblock %}

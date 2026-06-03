@@ -220,7 +220,7 @@ header a {
 }
 
 .page-container {
-    max-width: 600px;
+    max-width: 900px;
     margin: 2rem 0;
     padding: 0 20px;
 }
@@ -380,13 +380,13 @@ header a {
     overflow: hidden;
     margin-bottom: 1.5rem;
     width: 100%;
-    max-width: 480px;
 }
 
 .form-row {
     display: flex;
     align-items: stretch;
     border-bottom: 1px solid #004b9b;
+    min-width: min-content;
 }
 
 .form-row:last-child {
@@ -477,7 +477,7 @@ header a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 480px;
+    width: 100%;
     margin-top: 1.5rem;
 }
 
@@ -576,3 +576,295 @@ header a {
     color: #888;
     font-weight: 400;
 }
+
+/* ══════════════════════════════════════════
+   FLIGHT LOGGER
+══════════════════════════════════════════ */
+
+/* Warning banner */
+.flight-warning {
+    background-color: #fff8e1;
+    border: 2px solid #f0a500;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: #7a5000;
+    max-width: 480px;
+}
+.flight-warning a { color: #004b9b; font-weight: 600; }
+
+/* form-row select */
+.flight-select {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.9rem;
+    background: white;
+    cursor: pointer;
+}
+
+/* Crew tags */
+.crew-multi-row { align-items: flex-start; }
+.crew-entry-area { flex: 1; padding: 0.5rem 0.75rem; display: flex; flex-direction: column; gap: 0.4rem; }
+#crew-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.crew-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background-color: #e8eef8;
+    border: 1px solid #004b9b;
+    border-radius: 20px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.82rem;
+    color: #004b9b;
+}
+.crew-tag button {
+    background: none;
+    border: none;
+    color: #c0392b;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+.crew-input-row { display: flex; gap: 0.5rem; align-items: center; }
+.crew-input-row input { flex: 1; border: 1px solid #ccc; border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.88rem; }
+.crew-add-btn {
+    background-color: #f8f9fa;
+    color: #004b9b;
+    border: 2px solid #004b9b;
+    border-radius: 6px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0;
+}
+
+/* Current flight info cards */
+.flight-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 480px;
+}
+.flight-info-card {
+    border: 2px solid #004b9b;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.flight-info-card-header {
+    background-color: #004b9b;
+    color: white;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    padding: 0.4rem 0.85rem;
+    text-transform: uppercase;
+}
+.flight-info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.88rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+.flight-info-row:last-child { border-bottom: none; }
+.flight-info-row span:first-child { color: #555; }
+.flight-info-row span:last-child { font-weight: 500; color: #111; }
+.flight-info-placeholder { color: #aaa !important; font-style: italic; font-weight: 400 !important; }
+.flight-info-note {
+    font-size: 0.8rem;
+    color: #888;
+    padding: 0.5rem 0.85rem;
+    margin: 0;
+    border-bottom: 1px solid #e2e8f0;
+    font-style: italic;
+}
+.flight-taf-area { padding: 0; }
+
+/* Flight log list */
+.flight-log-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 480px;
+    margin-bottom: 2rem;
+}
+.flight-log-item {
+    display: block;
+    text-decoration: none;
+    border: 2px solid #004b9b;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    background: white;
+    color: inherit;
+}
+.flight-log-item:hover { background-color: #f0f4fb; }
+.flight-log-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #004b9b;
+    margin-bottom: 0.2rem;
+}
+.flight-log-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #333;
+    margin-bottom: 0.15rem;
+}
+.flight-log-route { font-weight: 600; }
+.flight-log-date { color: #666; }
+.flight-log-times { font-size: 0.8rem; color: #888; }
+
+/* Annotations */
+.annotation-section {
+    max-width: 480px;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+}
+.annotation-heading {
+    font-size: 1rem;
+    color: #004b9b;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+.annotation-item {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.6rem 0.85rem;
+    margin-bottom: 0.5rem;
+    background: #fafafa;
+}
+.annotation-meta { font-size: 0.75rem; color: #999; margin-bottom: 0.25rem; }
+.annotation-text { font-size: 0.88rem; color: #333; white-space: pre-wrap; }
+.annotation-textarea {
+    width: 100%;
+    border: 2px solid #004b9b;
+    border-radius: 8px;
+    padding: 0.65rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* ── Crew row fixes ── */
+.crew-multi-row .crew-entry-area {
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+    background-color: white;
+}
+
+.crew-entry-area .crew-input-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.crew-entry-area .crew-input-row input {
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.88rem;
+}
+
+.crew-input-form-row label {
+    background-color: #f8f9fa;
+}
+
+.crew-none {
+    font-size: 0.82rem;
+    color: #aaa;
+    font-style: italic;
+}
+
+/* ── Flight log: centre aligned ── */
+.flight-log-list {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page-container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ── Crew tags: wrap inside table row, no overflow ── */
+.crew-multi-row {
+    flex-wrap: wrap;
+}
+
+.crew-multi-row .crew-entry-area {
+    flex: 1;
+    min-width: 0;
+    overflow: visible;
+    padding: 0.5rem 0.75rem;
+}
+
+#crew-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    width: 100%;
+}
+
+.crew-tag {
+    max-width: 100%;
+    word-break: break-word;
+    white-space: normal;
+}
+
+.crew-input-form-row .crew-input-row {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.crew-input-form-row .crew-input-row input {
+    min-width: 0;
+    flex: 1 1 120px;
+}
+
+/* ── Crew row: expand horizontally not vertically ── */
+.crew-multi-row {
+    flex-wrap: wrap;
+}
+
+.crew-multi-row .crew-entry-area {
+    flex: 1;
+    min-width: 0;
+    overflow: visible;
+}
+
+#crew-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    width: 100%;
+}
+
+.crew-tag {
+    white-space: normal;
+    word-break: break-word;
+}
+
+.crew-input-form-row .crew-input-row {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.crew-input-form-row .crew-input-row input {
+    min-width: 0;
+    flex: 1 1 120px;
+}
+
+

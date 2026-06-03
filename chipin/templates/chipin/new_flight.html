@@ -1,15 +1,182 @@
 {% extends 'chipin/base.html' %}
 {% load static %}
-{% block title %}New Flight{% endblock %}
-{% block header_content %}<div class="header-page-title">New Flight</div>{% endblock %}
+{% block title %}New Flight — Pre-Takeoff{% endblock %}
+{% block header_content %}<div class="header-page-title">Pre-Takeoff</div>{% endblock %}
+
 {% block content %}
-    <div class="page-container">
-        
-        <div class="content-area">
-            <!-- Content will be added here -->
-        </div>
+<div class="page-container">
+
+    {% if incomplete %}
+    <div class="flight-warning">
+        ⚠️ You have an incomplete flight in progress (<strong>{{ incomplete.departure }} → {{ incomplete.destination }}</strong>).
+        <a href="{% url 'chipin:current_flight' incomplete.pk %}">Resume it</a> or continue below to start a new one.
     </div>
-        <div class="back-button-container">
-            <a href="{% url 'chipin:home' %}" class="back-btn">Back</a>
+    {% endif %}
+
+    {% if form.errors %}
+    <div class="form-errors">
+        {% for field in form %}{% for error in field.errors %}<p class="error-msg">{{ error }}</p>{% endfor %}{% endfor %}
+        {% for error in form.non_field_errors %}<p class="error-msg">{{ error }}</p>{% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Saved pilot/location datalists -->
+        <datalist id="pilot-list">
+            {% for p in pilots %}<option value="{{ p.name }}">{% endfor %}
+        </datalist>
+        <datalist id="location-list">
+            {% for l in locations %}<option value="{{ l.code }}">{% endfor %}
+        </datalist>
+
+        <div class="aircraft-form-table">
+
+            <div class="form-section-header">Flight Details</div>
+
+            <div class="form-row">
+                <label for="id_name">Flight Name</label>
+                <input type="text" id="id_name" name="name" value="{{ form.name.value|default:'' }}" placeholder="Optional">
+            </div>
+
+            <div class="form-section-header">Aircraft</div>
+
+            {% if aircraft_list %}
+            <div class="form-row">
+                <label for="id_aircraft_select">Registered Aircraft</label>
+                <select id="id_aircraft_select" class="flight-select" onchange="selectAircraft(this)">
+                    <option value="">— Select or enter manually —</option>
+                    {% for ac in aircraft_list %}
+                    <option value="{{ ac.pk }}" data-fuel="{{ ac.fuel_unit }}">{{ ac.registration }} — {{ ac.model }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endif %}
+            <input type="hidden" id="id_aircraft" name="aircraft" value="{{ form.aircraft.value|default:'' }}">
+
+            <div class="form-row" id="aircraft-free-row">
+                <label for="id_aircraft_free">Registration (manual)</label>
+                <input type="text" id="id_aircraft_free" name="aircraft_free" value="{{ form.aircraft_free.value|default:'' }}" placeholder="e.g. VH-PAT">
+            </div>
+
+            <div class="form-section-header">Fuel & Instruments</div>
+
+            <div class="form-row">
+                <label for="id_start_fuel">Starting Fuel Quantity</label>
+                <input type="text" inputmode="decimal" id="id_start_fuel" name="start_fuel" value="{{ form.start_fuel.value|default:'' }}" class="numeric-input" required>
+                <span class="input-unit" id="fuel-unit-label">L</span>
+            </div>
+            <div class="form-row">
+                <label for="id_vdo_start">VDO Reading</label>
+                <input type="text" inputmode="decimal" id="id_vdo_start" name="vdo_start" value="{{ form.vdo_start.value|default:'' }}" class="numeric-input" required>
+            </div>
+            <div class="form-row">
+                <label for="id_airswitch_start">Airswitch Reading</label>
+                <input type="text" inputmode="decimal" id="id_airswitch_start" name="airswitch_start" value="{{ form.airswitch_start.value|default:'' }}" class="numeric-input" required>
+            </div>
+
+            <div class="form-section-header">Route</div>
+
+            <div class="form-row">
+                <label for="id_departure">Take-Off Location</label>
+                <input type="text" id="id_departure" name="departure" value="{{ form.departure.value|default:'' }}" list="location-list" autocomplete="off" placeholder="ICAO or name" required>
+            </div>
+            <div class="form-row">
+                <label for="id_destination">Intended Destination</label>
+                <input type="text" id="id_destination" name="destination" value="{{ form.destination.value|default:'' }}" list="location-list" autocomplete="off" placeholder="ICAO or name" required>
+            </div>
+
+            <div class="form-section-header">Crew & Passengers</div>
+
+            <div class="form-row">
+                <label for="id_pilot_in_command">Pilot in Command</label>
+                <input type="text" id="id_pilot_in_command" name="pilot_in_command" value="{{ form.pilot_in_command.value|default:'' }}" list="pilot-list" autocomplete="off" placeholder="Select or type a name" required>
+            </div>
+
+            <div class="form-row crew-multi-row">
+                <label>Additional Crew</label>
+                <div class="crew-entry-area">
+                    <div id="crew-tags"><span class="crew-none">None added</span></div>
+                    <div class="crew-input-row">
+                        <input type="text" id="crew-input" list="pilot-list" autocomplete="off" placeholder="Add crew member…">
+                        <button type="button" class="crew-add-btn" onclick="addCrew()">Add</button>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="id_additional_crew" name="additional_crew" value="[]">
+
+            <div class="form-row">
+                <label for="id_passenger_count">Passenger Count</label>
+                <input type="text" inputmode="numeric" id="id_passenger_count" name="passenger_count" value="{{ form.passenger_count.value|default:'' }}" class="numeric-input" placeholder="0" required>
+            </div>
+
         </div>
+
+        <div class="form-actions">
+            <a href="{% url 'chipin:home' %}" class="back-btn">Back</a>
+            <button type="submit" class="save-btn">Next</button>
+        </div>
+    </form>
+</div>
+
+<script>
+// Block non-numeric keys in numeric-only inputs
+document.querySelectorAll('.numeric-input').forEach(function(input) {
+    input.addEventListener('keydown', function(e) {
+        const allowed = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','.'];
+        if (allowed.includes(e.key) || (e.key >= '0' && e.key <= '9')) return;
+        e.preventDefault();
+    });
+    input.addEventListener('input', function() {
+        let val = this.value.replace(/[^0-9.]/g, '');
+        const parts = val.split('.');
+        if (parts.length > 2) val = parts[0] + '.' + parts.slice(1).join('');
+        this.value = val;
+    });
+});
+
+// Aircraft selector
+function selectAircraft(sel) {
+    const pk = sel.value;
+    document.getElementById('id_aircraft').value = pk;
+    const freeRow = document.getElementById('aircraft-free-row');
+    freeRow.style.display = pk ? 'none' : 'flex';
+    if (pk) {
+        document.getElementById('fuel-unit-label').textContent = 'L';
+    }
+}
+
+// Additional crew tags
+let crewList = [];
+function renderCrew() {
+    const tags = document.getElementById('crew-tags');
+    tags.innerHTML = '';
+    if (crewList.length === 0) {
+        tags.innerHTML = '<span class="crew-none">None added</span>';
+    } else {
+        crewList.forEach(function(name, i) {
+            const tag = document.createElement('span');
+            tag.className = 'crew-tag';
+            tag.innerHTML = name + ' <button type="button" onclick="removeCrew(' + i + ')">×</button>';
+            tags.appendChild(tag);
+        });
+    }
+    document.getElementById('id_additional_crew').value = JSON.stringify(crewList);
+}
+function addCrew() {
+    const input = document.getElementById('crew-input');
+    const name = input.value.trim();
+    if (!name) return;
+    const pic = document.getElementById('id_pilot_in_command').value.trim();
+    if (name === pic) { alert('Pilot in command cannot also be additional crew.'); return; }
+    if (!crewList.includes(name)) crewList.push(name);
+    input.value = '';
+    renderCrew();
+}
+function removeCrew(i) { crewList.splice(i, 1); renderCrew(); }
+document.getElementById('crew-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); addCrew(); }
+});
+</script>
 {% endblock %}

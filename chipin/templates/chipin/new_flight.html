@@ -1,14 +1,14 @@
 {% extends 'chipin/base.html' %}
 {% load static %}
-{% block title %}New Flight — Pre-Takeoff{% endblock %}
-{% block header_content %}<div class="header-page-title">Pre-Takeoff</div>{% endblock %}
+{% block title %}{% if is_edit %}Edit Flight — Pre-Takeoff{% else %}New Flight — Pre-Takeoff{% endif %}{% endblock %}
+{% block header_content %}<div class="header-page-title">{% if is_edit %}Edit Pre-Takeoff Details{% else %}Pre-Takeoff{% endif %}</div>{% endblock %}
 
 {% block content %}
 <div class="page-container">
 
     {% if incomplete %}
     <div class="flight-warning">
-        ⚠️ You have an incomplete flight in progress (<strong>{{ incomplete.departure }} → {{ incomplete.destination }}</strong>).
+        You have an incomplete flight in progress (<strong>{{ incomplete.departure }} → {{ incomplete.destination }}</strong>).
         <a href="{% url 'chipin:current_flight' incomplete.pk %}">Resume it</a> or continue below to start a new one.
     </div>
     {% endif %}
@@ -20,7 +20,7 @@
     </div>
     {% endif %}
 
-    <form method="post">
+    <form method="post"{% if is_edit %} action="{% url 'chipin:edit_flight' flight.pk %}"{% endif %}>
         {% csrf_token %}
 
         <!-- Saved pilot/location datalists -->
@@ -87,6 +87,17 @@
                 <input type="text" id="id_destination" name="destination" value="{{ form.destination.value|default:'' }}" list="location-list" autocomplete="off" placeholder="ICAO or name" required>
             </div>
 
+            <div class="form-section-header">Scheduled Times</div>
+
+            <div class="form-row">
+                <label for="id_scheduled_departure_time">Scheduled Departure (Local)</label>
+                <input type="datetime-local" id="id_scheduled_departure_time" name="scheduled_departure_time" value="{{ form.scheduled_departure_time.value|default:'' }}">
+            </div>
+            <div class="form-row">
+                <label for="id_scheduled_arrival_time">Scheduled Arrival (Local)</label>
+                <input type="datetime-local" id="id_scheduled_arrival_time" name="scheduled_arrival_time" value="{{ form.scheduled_arrival_time.value|default:'' }}">
+            </div>
+
             <div class="form-section-header">Crew & Passengers</div>
 
             <div class="form-row">
@@ -104,7 +115,7 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" id="id_additional_crew" name="additional_crew" value="[]">
+            <input type="hidden" id="id_additional_crew" name="additional_crew" value="{{ form.additional_crew.value|default:'[]' }}">
 
             <div class="form-row">
                 <label for="id_passenger_count">Passenger Count</label>
@@ -114,13 +125,25 @@
         </div>
 
         <div class="form-actions">
+            {% if is_edit %}
+            <a href="{% url 'chipin:current_flight' flight.pk %}" class="back-btn">Cancel</a>
+            <button type="submit" class="save-btn">Save Changes</button>
+            {% else %}
             <a href="{% url 'chipin:home' %}" class="back-btn">Back</a>
             <button type="submit" class="save-btn">Next</button>
+            {% endif %}
         </div>
     </form>
 </div>
 
 <script>
+// Initialize crew list from form data (for editing)
+{% if is_edit %}
+let crewList = {{ flight.additional_crew|safe }};
+{% else %}
+let crewList = [];
+{% endif %}
+
 // Block non-numeric keys in numeric-only inputs
 document.querySelectorAll('.numeric-input').forEach(function(input) {
     input.addEventListener('keydown', function(e) {
@@ -148,7 +171,6 @@ function selectAircraft(sel) {
 }
 
 // Additional crew tags
-let crewList = [];
 function renderCrew() {
     const tags = document.getElementById('crew-tags');
     tags.innerHTML = '';
@@ -178,5 +200,16 @@ function removeCrew(i) { crewList.splice(i, 1); renderCrew(); }
 document.getElementById('crew-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') { e.preventDefault(); addCrew(); }
 });
+
+// Initialize crew display on page load
+renderCrew();
+
+// Initialize aircraft selector on page load (for editing)
+const aircraftPk = document.getElementById('id_aircraft').value;
+if (aircraftPk) {
+    document.getElementById('id_aircraft_select').value = aircraftPk;
+    const freeRow = document.getElementById('aircraft-free-row');
+    if (freeRow) freeRow.style.display = 'none';
+}
 </script>
 {% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'chipin/base.html' %}
+{% load static %}
+{% block title %}Current Flight{% endblock %}
+{% block header_content %}<div class="header-page-title">{{ flight.departure }} → {{ flight.destination }}</div>{% endblock %}
+
+{% block content %}
+<div class="page-container">
+
+    <!-- ── TAF Section ── -->
+    <div class="flight-info-grid" style="max-width: 600px;">
+
+        <div class="taf-grid">
+            <!-- Take-Off TAF -->
+            <div class="flight-info-card">
+                <div class="flight-info-card-header">{{ flight.departure }} TAF</div>
+                <div class="taf-body">
+                    <pre class="taf-text">{{ taf_departure|default:"TAF data unavailable." }}</pre>
+                </div>
+            </div>
+            <!-- Destination TAF -->
+            <div class="flight-info-card">
+                <div class="flight-info-card-header">{{ flight.destination }} TAF</div>
+                <div class="taf-body">
+                    <pre class="taf-text">{{ taf_destination|default:"TAF data unavailable." }}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Frequencies -->
+        <div class="flight-info-card">
+            <div class="flight-info-card-header">Frequencies</div>
+            <div class="freq-grid-header">
+                <span>Location</span>
+                <span>Frequency</span>
+            </div>
+            <!-- Take-Off location frequencies -->
+            {% for freq in frequencies_departure %}
+            <div class="flight-info-row">
+                <span>{{ flight.departure }} {{ freq.label }}</span>
+                <span>{{ freq.value }}</span>
+            </div>
+            {% empty %}
+            <div class="flight-info-row">
+                <span>{{ flight.departure }}</span>
+                <span class="flight-info-placeholder">—</span>
+            </div>
+            {% endfor %}
+            <!-- Destination frequencies -->
+            {% for freq in frequencies_destination %}
+            <div class="flight-info-row">
+                <span>{{ flight.destination }} {{ freq.label }}</span>
+                <span>{{ freq.value }}</span>
+            </div>
+            {% empty %}
+            <div class="flight-info-row">
+                <span>{{ flight.destination }}</span>
+                <span class="flight-info-placeholder">—</span>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <div class="form-actions" style="margin-top: 2rem; max-width: 600px;">
+        <a href="{% url 'chipin:current_flight_live' flight.pk %}" class="save-btn" style="text-decoration:none; text-align:center; flex: 1;">Next</a>
+    </div>
+</div>
+{% endblock %}

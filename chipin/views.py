@@ -187,6 +187,8 @@ def new_flight(request):
                 status           = FlightRecord.STATUS_INFLIGHT,
                 name             = d['name'],
                 start_time       = tz.now(),
+                scheduled_departure_time = d.get('scheduled_departure_time'),
+                scheduled_arrival_time   = d.get('scheduled_arrival_time'),
                 start_fuel       = d['start_fuel'],
                 departure        = d['departure'].strip().upper(),
                 destination      = d['destination'].strip().upper(),
@@ -227,11 +229,115 @@ def new_flight(request):
 
 
 @login_required
+def edit_flight(request, pk):
+    """Edit an in-flight flight's pre-takeoff details."""
+    flight = get_object_or_404(FlightRecord, pk=pk, user=request.user,
+                               status=FlightRecord.STATUS_INFLIGHT)
+    
+    aircraft_list = Aircraft.objects.filter(user=request.user)
+    pilots        = Pilot.objects.filter(user=request.user)
+    locations     = Location.objects.filter(user=request.user)
+
+    if request.method == 'POST':
+        form = PreTakeoffForm(request.POST, user=request.user)
+        if form.is_valid():
+            d = form.cleaned_data
+            flight.name             = d['name']
+            flight.scheduled_departure_time = d.get('scheduled_departure_time')
+            flight.scheduled_arrival_time   = d.get('scheduled_arrival_time')
+            flight.start_fuel       = d['start_fuel']
+            flight.departure        = d['departure'].strip().upper()
+            flight.destination      = d['destination'].strip().upper()
+            flight.vdo_start        = d['vdo_start']
+            flight.airswitch_start  = d['airswitch_start']
+            flight.pilot_in_command = d['pilot_in_command'].strip()
+            flight.additional_crew  = d['additional_crew']
+            flight.passenger_count  = d['passenger_count']
+            
+            ac_pk = d.get('aircraft')
+            if ac_pk:
+                try:
+                    flight.aircraft = Aircraft.objects.get(pk=ac_pk, user=request.user)
+                    flight.fuel_unit = flight.aircraft.fuel_unit
+                except Aircraft.DoesNotExist:
+                    pass
+            else:
+                flight.aircraft_free = d.get('aircraft_free', '').strip()
+            flight.save()
+
+            _save_pilot(request.user, d['pilot_in_command'])
+            for crew in d['additional_crew']:
+                _save_pilot(request.user, crew)
+            _save_location(request.user, d['departure'])
+            _save_location(request.user, d['destination'])
+
+            return redirect('chipin:current_flight', pk=flight.pk)
+    else:
+        # Pre-populate form with existing flight data
+        initial_data = {
+            'name': flight.name,
+            'aircraft': flight.aircraft.pk if flight.aircraft else '',
+            'aircraft_free': flight.aircraft_free,
+            'start_fuel': flight.start_fuel,
+            'departure': flight.departure,
+            'destination': flight.destination,
+            'vdo_start': flight.vdo_start,
+            'airswitch_start': flight.airswitch_start,
+            'pilot_in_command': flight.pilot_in_command,
+            'additional_crew': json.dumps(flight.additional_crew) if flight.additional_crew else '[]',
+            'passenger_count': flight.passenger_count,
+            'scheduled_departure_time': flight.scheduled_departure_time,
+            'scheduled_arrival_time': flight.scheduled_arrival_time,
+        }
+        form = PreTakeoffForm(user=request.user, initial=initial_data)
+
+    return render(request, 'chipin/new_flight.html', {
+        'form': form,
+        'aircraft_list': aircraft_list,
+        'pilots': pilots,
+        'locations': locations,
+        'flight': flight,
+        'is_edit': True,
+    })
+
+
+@login_required
 def current_flight(request, pk):
-    """In-flight screen."""
+    """In-flight screen - confirmation page."""
     flight = get_object_or_404(FlightRecord, pk=pk, user=request.user,
                                status=FlightRecord.STATUS_INFLIGHT)
     return render(request, 'chipin/current_flight.html', {'flight': flight})
+
+
+@login_required
+def current_flight_taf(request, pk):
+    """In-flight screen - TAF data page."""
+    flight = get_object_or_404(FlightRecord, pk=pk, user=request.user,
+                               status=FlightRecord.STATUS_INFLIGHT)
+    # TODO: Fetch actual TAF and frequency data
+    context = {
+        'flight': flight,
+        'taf_departure': None,
+        'taf_destination': None,
+        'frequencies_departure': [],
+        'frequencies_destination': [],
+    }
+    return render(request, 'chipin/current_flight_taf.html', context)
+
+
+@login_required
+def current_flight_live(request, pk):
+    """In-flight screen - live TAF page."""
+    flight = get_object_or_404(FlightRecord, pk=pk, user=request.user,
+                               status=FlightRecord.STATUS_INFLIGHT)
+    # TODO: Fetch actual live TAF and frequency data
+    context = {
+        'flight': flight,
+        'live_taf': None,
+        'frequencies_departure': [],
+        'frequencies_destination': [],
+    }
+    return render(request, 'chipin/current_flight_live.html', context)
 
 
 @login_required
@@ -273,6 +379,15 @@ def flight_summary(request, pk):
     flight = get_object_or_404(FlightRecord, pk=pk, user=request.user,
                                status=FlightRecord.STATUS_COMPLETE)
     return render(request, 'chipin/flight_summary.html', {'flight': flight})
+
+
+@login_required
+@require_POST
+def delete_flight(request, pk):
+    """Delete a flight record (for testing purposes)."""
+    flight = get_object_or_404(FlightRecord, pk=pk, user=request.user)
+    flight.delete()
+    return redirect('chipin:flight_log')
 
 
 @login_required

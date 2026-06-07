@@ -6,24 +6,72 @@
 {% block content %}
 <div class="page-container">
 
+    <!-- Confirmation Section -->
+    <div style="background-color: #f8f9fa; border: 2px solid #007bff; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
+        <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; color: #333;">Is this correct?</div>
+        
+        <div class="flight-info-grid">
+            <div class="flight-info-card">
+                <div class="flight-info-card-header">Flight Details</div>
+                <div class="flight-info-row"><span>Name</span><span>{{ flight.display_name }}</span></div>
+                <div class="flight-info-row"><span>Aircraft</span><span>{% if flight.aircraft %}{{ flight.aircraft.registration }}{% else %}{{ flight.aircraft_free|default:"—" }}{% endif %}</span></div>
+                <div class="flight-info-row"><span>PIC</span><span>{{ flight.pilot_in_command }}</span></div>
+                {% if flight.additional_crew %}<div class="flight-info-row"><span>Crew</span><span>{{ flight.additional_crew|join:", " }}</span></div>{% endif %}
+                <div class="flight-info-row"><span>Passengers</span><span>{{ flight.passenger_count }}</span></div>
+            </div>
+            <div class="flight-info-card">
+                <div class="flight-info-card-header">Route & Time</div>
+                <div class="flight-info-row"><span>Departure</span><span>{{ flight.departure }}</span></div>
+                <div class="flight-info-row"><span>Destination</span><span>{{ flight.destination }}</span></div>
+                <div class="flight-info-row"><span>Flight Date</span><span>{{ flight.start_time|date:'d/m/Y' }}</span></div>
+                <div class="flight-info-row"><span>Actual Departure</span><span>{{ flight.start_time|date:'H:i' }} Local / {{ flight.start_time|date:'H:i' }} UTC</span></div>
+                {% if flight.scheduled_departure_time %}<div class="flight-info-row"><span>Scheduled Departure</span><span>{{ flight.scheduled_departure_time|date:'d/m/Y H:i' }}</span></div>{% endif %}
+                {% if flight.scheduled_arrival_time %}<div class="flight-info-row"><span>Scheduled Arrival</span><span>{{ flight.scheduled_arrival_time|date:'d/m/Y H:i' }}</span></div>{% endif %}
+                <div class="flight-info-row"><span>Start Fuel</span><span>{{ flight.start_fuel }} {{ flight.fuel_unit }}</span></div>
+            </div>
+            <div class="flight-info-card">
+                <div class="flight-info-card-header">Instruments</div>
+                <div class="flight-info-row"><span>VDO</span><span>{{ flight.vdo_start }}</span></div>
+                <div class="flight-info-row"><span>Airswitch</span><span>{{ flight.airswitch_start }}</span></div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="{% url 'chipin:edit_flight' flight.pk %}" class="back-btn" style="flex: 1;">Edit</a>
+            <a href="{% url 'chipin:current_flight_taf' flight.pk %}" class="save-btn" style="text-decoration:none; text-align:center; flex: 1;">Next</a>
+        </div>
+    </div>
+
+    <!-- Flight In-Progress Information -->
     <div class="flight-info-grid">
         <div class="flight-info-card">
-            <div class="flight-info-card-header">Flight</div>
-            <div class="flight-info-row"><span>Name</span><span>{{ flight.display_name }}</span></div>
-            <div class="flight-info-row"><span>Aircraft</span><span>{% if flight.aircraft %}{{ flight.aircraft.registration }}{% else %}{{ flight.aircraft_free|default:"—" }}{% endif %}</span></div>
-            <div class="flight-info-row"><span>PIC</span><span>{{ flight.pilot_in_command }}</span></div>
-            {% if flight.additional_crew %}<div class="flight-info-row"><span>Crew</span><span>{{ flight.additional_crew|join:", " }}</span></div>{% endif %}
-            <div class="flight-info-row"><span>Passengers</span><span>{{ flight.passenger_count }}</span></div>
-            <div class="flight-info-row"><span>Departed</span><span>{{ flight.start_time|date:"H:i" }} UTC</span></div>
-            <div class="flight-info-row"><span>Start Fuel</span><span>{{ flight.start_fuel }} {{ flight.fuel_unit }}</span></div>
-            <div class="flight-info-row"><span>VDO</span><span>{{ flight.vdo_start }}</span></div>
-            <div class="flight-info-row"><span>Airswitch</span><span>{{ flight.airswitch_start }}</span></div>
+            <div class="flight-info-card-header">Current Status</div>
+            <div class="flight-info-row"><span>Status</span><span>In Flight</span></div>
+            <div class="flight-info-row"><span>Duration</span><span id="flight-duration">—</span></div>
         </div>
     </div>
 
     <div class="form-actions" style="margin-top: 2rem;">
-        <a href="{% url 'chipin:new_flight' %}" class="back-btn">← Pre-Takeoff</a>
-        <a href="{% url 'chipin:post_landing' flight.pk %}" class="save-btn" style="text-decoration:none; text-align:center;">Land →</a>
+        <a href="{% url 'chipin:home' %}" class="back-btn">Home</a>
     </div>
 </div>
+
+<script>
+    // Update flight duration every second
+    function updateDuration() {
+        const startTime = new Date('{{ flight.start_time|date:"c" }}');
+        const now = new Date();
+        const elapsed = Math.floor((now - startTime) / 1000);
+        
+        const hours = Math.floor(elapsed / 3600);
+        const minutes = Math.floor((elapsed % 3600) / 60);
+        const seconds = elapsed % 60;
+        
+        const durationStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        document.getElementById('flight-duration').textContent = durationStr;
+    }
+    
+    updateDuration();
+    setInterval(updateDuration, 1000);
+</script>
 {% endblock %}

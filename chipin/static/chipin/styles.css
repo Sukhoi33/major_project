@@ -868,3 +868,66 @@ header a {
 }
 
 
+
+/* ══════════════════════════════════════════
+   CURRENT FLIGHT — TAF & FREQUENCIES
+══════════════════════════════════════════ */
+
+/* Two-column TAF grid */
+.taf-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 480px) {
+    .taf-grid { grid-template-columns: 1fr; }
+}
+
+/* TAF text area */
+.taf-body {
+    padding: 0.65rem 0.85rem;
+    background: #fafafa;
+}
+
+.taf-text {
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.78rem;
+    color: #333;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.5;
+    min-height: 4rem;
+}
+
+/* Frequency table header row */
+.freq-grid-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    background-color: #2563b0;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* Location grouping row (bold divider) */
+.freq-location-group {
+    background-color: #e8eef8;
+    border-bottom: 1px solid #004b9b !important;
+}
+
+.freq-location-label {
+    font-weight: 700;
+    color: #004b9b !important;
+    font-size: 0.85rem;
+}
+
+/* Indented sub-rows under a location */
+.freq-sub-row span:first-child {
+    padding-left: 1rem;
+    color: #444;
+}

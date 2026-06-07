@@ -120,6 +120,8 @@ class FlightRecord(models.Model):
     aircraft_free     = models.CharField(max_length=100, blank=True)   # fallback if no registered aircraft
 
     start_time        = models.DateTimeField(null=True, blank=True)    # auto-set on submission
+    scheduled_departure_time = models.DateTimeField(null=True, blank=True)  # user-entered scheduled departure
+    scheduled_arrival_time   = models.DateTimeField(null=True, blank=True)  # user-entered scheduled arrival
     start_fuel        = models.DecimalField(max_digits=7, decimal_places=1, null=True, blank=True)
     fuel_unit         = models.CharField(max_length=10, blank=True, default='L')
 

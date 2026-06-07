@@ -72,6 +72,10 @@ class PreTakeoffForm(forms.Form):
                            widget=forms.TextInput(attrs={'inputmode': 'decimal', 'placeholder': '0.0'}))
     airswitch_start  = forms.DecimalField(max_digits=10, decimal_places=1, min_value=0,
                            widget=forms.TextInput(attrs={'inputmode': 'decimal', 'placeholder': '0.0'}))
+    scheduled_departure_time = forms.DateTimeField(required=False,
+                           widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
+    scheduled_arrival_time = forms.DateTimeField(required=False,
+                           widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
     pilot_in_command = forms.CharField(max_length=150,
                            widget=forms.TextInput(attrs={'list': 'pilot-list', 'autocomplete': 'off',
                                                          'placeholder': 'Select or type a name'}))
@@ -87,8 +91,6 @@ class PreTakeoffForm(forms.Form):
         cleaned = super().clean()
         dep = cleaned.get('departure', '').strip()
         dest = cleaned.get('destination', '').strip()
-        if dep and dest and dep.upper() == dest.upper():
-            self.add_error('destination', 'Destination must differ from departure.')
 
         pic = cleaned.get('pilot_in_command', '').strip()
         try:

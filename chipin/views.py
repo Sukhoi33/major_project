@@ -353,6 +353,7 @@ def post_landing(request, pk):
             d = form.cleaned_data
             flight.end_time           = tz.now()
             flight.end_fuel           = d['end_fuel']
+            flight.fuel_added         = d.get('fuel_added')
             flight.actual_destination = d['actual_destination'].strip().upper()
             flight.vdo_end            = d['vdo_end']
             flight.airswitch_end      = d['airswitch_end']

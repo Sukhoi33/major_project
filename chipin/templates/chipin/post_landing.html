@@ -26,7 +26,13 @@
             <div class="form-row">
                 <label for="id_end_fuel">End Fuel Quantity</label>
                 <input type="text" inputmode="decimal" id="id_end_fuel" name="end_fuel" value="{{ form.end_fuel.value|default:'' }}" class="numeric-input" required>
-                <span class="input-unit">{{ flight.fuel_unit|default:"L" }}</span>
+                <span class="input-unit">L</span>
+            </div>
+
+            <div class="form-row" id="fuel-added-row" style="display:none;">
+                <label for="id_fuel_added">Fuel Added</label>
+                <input type="text" inputmode="decimal" id="id_fuel_added" name="fuel_added" value="{{ form.fuel_added.value|default:'' }}" class="numeric-input">
+                <span class="input-unit">L</span>
             </div>
             <div class="form-row">
                 <label for="id_vdo_end">VDO Reading</label>
@@ -60,6 +66,8 @@
 </div>
 
 <script>
+const startFuel = {{ flight.start_fuel|default:'null' }};
+
 document.querySelectorAll('.numeric-input').forEach(function(input) {
     input.addEventListener('keydown', function(e) {
         const allowed = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','.'];
@@ -73,5 +81,26 @@ document.querySelectorAll('.numeric-input').forEach(function(input) {
         this.value = val;
     });
 });
+
+// Show fuel_added field if end_fuel > start_fuel
+document.getElementById('id_end_fuel').addEventListener('input', function() {
+    const endFuel = parseFloat(this.value) || 0;
+    const fuelAddedRow = document.getElementById('fuel-added-row');
+    
+    if (startFuel !== null && endFuel > startFuel) {
+        fuelAddedRow.style.display = 'flex';
+    } else {
+        fuelAddedRow.style.display = 'none';
+        document.getElementById('id_fuel_added').value = '';  // clear the field
+    }
+});
+
+// Check on page load if fuel_added field should be visible
+if (startFuel !== null) {
+    const currentEndFuel = parseFloat(document.getElementById('id_end_fuel').value) || 0;
+    if (currentEndFuel > startFuel) {
+        document.getElementById('fuel-added-row').style.display = 'flex';
+    }
+}
 </script>
 {% endblock %}

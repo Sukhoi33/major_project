@@ -121,6 +121,8 @@ class PreTakeoffForm(forms.Form):
 class PostLandingForm(forms.Form):
     end_fuel           = forms.DecimalField(max_digits=7, decimal_places=1, min_value=0,
                              widget=forms.TextInput(attrs={'inputmode': 'decimal', 'placeholder': '0.0'}))
+    fuel_added         = forms.DecimalField(max_digits=7, decimal_places=1, min_value=0, required=False,
+                             widget=forms.TextInput(attrs={'inputmode': 'decimal', 'placeholder': '0.0'}))
     actual_destination = forms.CharField(max_length=150,
                              widget=forms.TextInput(attrs={'list': 'location-list', 'autocomplete': 'off',
                                                            'placeholder': 'ICAO code or location name'}))
@@ -138,17 +140,17 @@ class PostLandingForm(forms.Form):
     def clean_vdo_end(self):
         val = self.cleaned_data.get('vdo_end')
         if self.flight and val is not None and self.flight.vdo_start is not None:
-            if val < self.flight.vdo_start:
+            if val <= self.flight.vdo_start:
                 raise forms.ValidationError(
-                    f'VDO end cannot be less than VDO start ({self.flight.vdo_start}).')
+                    f'VDO end must be greater than VDO start ({self.flight.vdo_start}).')
         return val
 
     def clean_airswitch_end(self):
         val = self.cleaned_data.get('airswitch_end')
         if self.flight and val is not None and self.flight.airswitch_start is not None:
-            if val < self.flight.airswitch_start:
+            if val <= self.flight.airswitch_start:
                 raise forms.ValidationError(
-                    f'Airswitch end cannot be less than Airswitch start ({self.flight.airswitch_start}).')
+                    f'Airswitch end must be greater than Airswitch start ({self.flight.airswitch_start}).')
         return val
 
 

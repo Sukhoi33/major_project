@@ -138,6 +138,7 @@ class FlightRecord(models.Model):
     # ── Post-landing ───────────────────────────────────────────────────────
     end_time          = models.DateTimeField(null=True, blank=True)
     end_fuel          = models.DecimalField(max_digits=7, decimal_places=1, null=True, blank=True)
+    fuel_added        = models.DecimalField(max_digits=7, decimal_places=1, null=True, blank=True)  # fuel added between start and end
     actual_destination = models.CharField(max_length=150, blank=True)
     vdo_end           = models.DecimalField(max_digits=10, decimal_places=1, null=True, blank=True)
     airswitch_end     = models.DecimalField(max_digits=10, decimal_places=1, null=True, blank=True)

@@ -8,7 +8,7 @@ class AircraftForm(forms.ModelForm):
         model = Aircraft
         fields = [
             'registration', 'model',
-            'fuel_consumption', 'fuel_unit',
+            'fuel_consumption', 'max_fuel',
             'speed_unit',
             'vso', 'vs1', 'vr', 'vx', 'vy',
             'vfe', 'vno', 'vne', 'va', 'vlo', 'vle',
@@ -119,8 +119,8 @@ class PreTakeoffForm(forms.Form):
 
 
 class PostLandingForm(forms.Form):
-    end_fuel           = forms.DecimalField(max_digits=7, decimal_places=1, min_value=0,
-                             widget=forms.TextInput(attrs={'inputmode': 'decimal', 'placeholder': '0.0'}))
+    end_fuel           = forms.CharField(max_length=50,
+                             widget=forms.TextInput(attrs={'inputmode': 'decimal', 'placeholder': '0.0 or "full"'}))
     fuel_added         = forms.DecimalField(max_digits=7, decimal_places=1, min_value=0, required=False,
                              widget=forms.TextInput(attrs={'inputmode': 'decimal', 'placeholder': '0.0'}))
     actual_destination = forms.CharField(max_length=150,
@@ -136,6 +136,31 @@ class PostLandingForm(forms.Form):
     def __init__(self, *args, flight=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.flight = flight
+
+    def clean_end_fuel(self):
+        val = self.cleaned_data.get('end_fuel')
+        if val is None or val == '':
+            raise forms.ValidationError('End fuel is required.')
+        
+        # Allow "full" only if aircraft is registered (not text input)
+        if val.lower().strip() == 'full':
+            if not self.flight or not self.flight.aircraft:
+                raise forms.ValidationError('Cannot use "full" with a manually entered aircraft.')
+            if not self.flight.aircraft.max_fuel:
+                raise forms.ValidationError(f'Aircraft {self.flight.aircraft.registration} does not have a max fuel capacity set.')
+            # Store the max_fuel value for later use
+            self._end_fuel_value = self.flight.aircraft.max_fuel
+            return val
+        
+        # Try to convert to decimal
+        try:
+            decimal_val = float(val)
+            if decimal_val < 0:
+                raise forms.ValidationError('End fuel cannot be negative.')
+            self._end_fuel_value = decimal_val
+            return val
+        except (ValueError, TypeError):
+            raise forms.ValidationError('End fuel must be a number or "full".')
 
     def clean_vdo_end(self):
         val = self.cleaned_data.get('vdo_end')

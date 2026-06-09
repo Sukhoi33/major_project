@@ -7,7 +7,6 @@ import os
 class Aircraft(models.Model):
     FUEL_UNIT_CHOICES = [
         ('L/hr', 'L/hr'),
-        ('gal/hr', 'gal/hr'),
     ]
     SPEED_UNIT_CHOICES = [
         ('kts', 'kts'),
@@ -19,6 +18,7 @@ class Aircraft(models.Model):
     model = models.CharField(max_length=100)
     fuel_consumption = models.DecimalField(max_digits=7, decimal_places=1)
     fuel_unit = models.CharField(max_length=10, choices=FUEL_UNIT_CHOICES, default='L/hr')
+    max_fuel = models.DecimalField(max_digits=7, decimal_places=1, null=True, blank=True)  # max fuel capacity
     speed_unit = models.CharField(max_length=10, choices=SPEED_UNIT_CHOICES, default='kts')
 
     vso = models.DecimalField(max_digits=6, decimal_places=1, null=True, blank=True)

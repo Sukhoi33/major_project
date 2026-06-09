@@ -352,7 +352,11 @@ def post_landing(request, pk):
         if form.is_valid():
             d = form.cleaned_data
             flight.end_time           = tz.now()
-            flight.end_fuel           = d['end_fuel']
+            
+            # Handle end_fuel - convert "full" to max_fuel value
+            end_fuel_value = form._end_fuel_value
+            flight.end_fuel           = end_fuel_value
+            
             flight.fuel_added         = d.get('fuel_added')
             flight.actual_destination = d['actual_destination'].strip().upper()
             flight.vdo_end            = d['vdo_end']

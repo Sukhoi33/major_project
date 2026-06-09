@@ -25,9 +25,10 @@
 
             <div class="form-row">
                 <label for="id_end_fuel">End Fuel Quantity</label>
-                <input type="text" inputmode="decimal" id="id_end_fuel" name="end_fuel" value="{{ form.end_fuel.value|default:'' }}" class="numeric-input" required>
+                <input type="text" id="id_end_fuel" name="end_fuel" value="{{ form.end_fuel.value|default:'' }}" class="fuel-input" required>
                 <span class="input-unit">L</span>
             </div>
+            {% if flight.aircraft and flight.aircraft.max_fuel %}<div style="margin-left: auto; margin-right: 0; font-size: 0.85rem; color: #666;">Type "full" for max capacity ({{ flight.aircraft.max_fuel }} L)</div>{% endif %}
 
             <div class="form-row" id="fuel-added-row" style="display:none;">
                 <label for="id_fuel_added">Fuel Added</label>
@@ -68,6 +69,7 @@
 <script>
 const startFuel = {{ flight.start_fuel|default:'null' }};
 
+// Apply numeric filtering to VDO and Airswitch fields only
 document.querySelectorAll('.numeric-input').forEach(function(input) {
     input.addEventListener('keydown', function(e) {
         const allowed = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','.'];
@@ -82,22 +84,57 @@ document.querySelectorAll('.numeric-input').forEach(function(input) {
     });
 });
 
-// Show fuel_added field if end_fuel > start_fuel
-document.getElementById('id_end_fuel').addEventListener('input', function() {
-    const endFuel = parseFloat(this.value) || 0;
+// Fuel input field - allow "full" or numbers
+const fuelInput = document.getElementById('id_end_fuel');
+fuelInput.addEventListener('input', function() {
+    const val = this.value.trim().toLowerCase();
+    
+    // If "full", don't filter
+    if (val === 'full' || val === '') {
+        updateFuelAddedVisibility();
+        return;
+    }
+    
+    // Otherwise, filter to numbers and decimal
+    let filtered = this.value.replace(/[^0-9.]/g, '');
+    const parts = filtered.split('.');
+    if (parts.length > 2) filtered = parts[0] + '.' + parts.slice(1).join('');
+    this.value = filtered;
+    
+    updateFuelAddedVisibility();
+});
+
+function updateFuelAddedVisibility() {
+    const fuelValue = fuelInput.value.trim().toLowerCase();
     const fuelAddedRow = document.getElementById('fuel-added-row');
     
-    if (startFuel !== null && endFuel > startFuel) {
-        fuelAddedRow.style.display = 'flex';
+    if (startFuel === null) return;
+    
+    let endFuel;
+    if (fuelValue === 'full') {
+        // Can't compare "full" to start_fuel here, so show the field if using registered aircraft
+        // The backend will handle the actual calculation
+        const aircraftName = '{{ flight.aircraft.registration|default:"" }}';
+        if (aircraftName) {
+            fuelAddedRow.style.display = 'flex';
+        } else {
+            fuelAddedRow.style.display = 'none';
+            document.getElementById('id_fuel_added').value = '';
+        }
     } else {
-        fuelAddedRow.style.display = 'none';
-        document.getElementById('id_fuel_added').value = '';  // clear the field
+        endFuel = parseFloat(fuelValue) || 0;
+        if (endFuel > startFuel) {
+            fuelAddedRow.style.display = 'flex';
+        } else {
+            fuelAddedRow.style.display = 'none';
+            document.getElementById('id_fuel_added').value = '';
+        }
     }
-});
+}
 
 // Check on page load if fuel_added field should be visible
 if (startFuel !== null) {
-    const currentEndFuel = parseFloat(document.getElementById('id_end_fuel').value) || 0;
+    const currentEndFuel = parseFloat(fuelInput.value) || 0;
     if (currentEndFuel > startFuel) {
         document.getElementById('fuel-added-row').style.display = 'flex';
     }

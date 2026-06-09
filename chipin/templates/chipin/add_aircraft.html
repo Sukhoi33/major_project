@@ -18,10 +18,13 @@
                 <div class="form-row">
                     <label for="fuel_consumption">Fuel consumption rate</label>
                     <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="fuel_consumption" name="fuel_consumption" value="{{ form.fuel_consumption.value|default:'' }}" required class="numeric-input">
-                    <select name="fuel_unit" class="unit-select">
-                        <option value="L/hr" {% if form.fuel_unit.value == 'L/hr' %}selected{% endif %}>L/hr</option>
-                        <option value="gal/hr" {% if form.fuel_unit.value == 'gal/hr' %}selected{% endif %}>gal/hr</option>
-                    </select>
+                    <span class="input-unit">L/hr</span>
+                </div>
+
+                <div class="form-row">
+                    <label for="max_fuel">Max Fuel Capacity</label>
+                    <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" id="max_fuel" name="max_fuel" value="{{ form.max_fuel.value|default:'' }}" class="numeric-input">
+                    <span class="input-unit">L</span>
                 </div>
 
                 <div class="form-section-header">

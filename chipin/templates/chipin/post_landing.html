@@ -6,6 +6,57 @@
 {% block content %}
 <div class="page-container">
 
+    {% if preview %}
+
+    <!-- Confirmation card — same pattern as current_flight.html -->
+    <div style="background-color: #f8f9fa; border: 2px solid #007bff; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
+        <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; color: #333;">Is this correct?</div>
+
+        <div class="flight-info-grid">
+            <div class="flight-info-card">
+                <div class="flight-info-card-header">Route</div>
+                <div class="flight-info-row"><span>Take-Off</span><span>{{ flight.departure }}</span></div>
+                <div class="flight-info-row"><span>Actual Destination</span><span>{{ preview.actual_destination }}</span></div>
+            </div>
+            <div class="flight-info-card">
+                <div class="flight-info-card-header">Fuel</div>
+                <div class="flight-info-row"><span>Start Fuel</span><span>{{ flight.start_fuel }} {{ flight.fuel_unit }}</span></div>
+                <div class="flight-info-row"><span>End Fuel</span><span>{{ preview.end_fuel }} {{ flight.fuel_unit }}</span></div>
+                {% if preview.fuel_added %}<div class="flight-info-row"><span>Fuel Added</span><span>{{ preview.fuel_added }} {{ flight.fuel_unit }}</span></div>{% endif %}
+                {% if preview.fuel_used is not None %}<div class="flight-info-row"><span>Fuel Used</span><span>{{ preview.fuel_used }} {{ flight.fuel_unit }}</span></div>{% endif %}
+            </div>
+            <div class="flight-info-card">
+                <div class="flight-info-card-header">Instruments</div>
+                <div class="flight-info-row"><span>VDO Start</span><span>{{ flight.vdo_start }}</span></div>
+                <div class="flight-info-row"><span>VDO End</span><span>{{ preview.vdo_end }}</span></div>
+                {% if preview.vdo_total is not None %}<div class="flight-info-row"><span>VDO Total</span><span>{{ preview.vdo_total }}</span></div>{% endif %}
+                <div class="flight-info-row"><span>Airswitch Start</span><span>{{ flight.airswitch_start }}</span></div>
+                <div class="flight-info-row"><span>Airswitch End</span><span>{{ preview.airswitch_end }}</span></div>
+                {% if preview.airswitch_total is not None %}<div class="flight-info-row"><span>Airswitch Total</span><span>{{ preview.airswitch_total }}</span></div>{% endif %}
+            </div>
+            {% if preview.notes %}
+            <div class="flight-info-card">
+                <div class="flight-info-card-header">Notes</div>
+                <div class="flight-info-row"><span style="white-space:pre-wrap;">{{ preview.notes }}</span></div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="{% url 'chipin:post_landing' flight.pk %}" class="back-btn" style="flex: 1; text-align: center;">Edit</a>
+            <form method="post" style="flex: 1;">
+                {% csrf_token %}
+                <input type="hidden" name="confirmed" value="1">
+                {% for field in form %}
+                    <input type="hidden" name="{{ field.html_name }}" value="{{ field.value|default:'' }}">
+                {% endfor %}
+                <button type="submit" class="save-btn" style="width: 100%;">Confirm</button>
+            </form>
+        </div>
+    </div>
+
+    {% else %}
+
     {% if form.errors %}
     <div class="form-errors">
         {% for field in form %}{% for error in field.errors %}<p class="error-msg">{{ error }}</p>{% endfor %}{% endfor %}
@@ -61,9 +112,11 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="save-btn">Submit & Log</button>
+            <button type="submit" class="save-btn">Next</button>
         </div>
     </form>
+
+    {% endif %}
 </div>
 
 <script>

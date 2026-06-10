@@ -8,7 +8,7 @@
 
     <div class="flight-info-grid" style="max-width: 600px;">
 
-        <!-- Live TAF (full width) -->
+        <!-- ── Live TAF ── -->
         <div class="flight-info-card">
             <div class="flight-info-card-header">Live TAF</div>
             <div class="taf-body">
@@ -16,7 +16,23 @@
             </div>
         </div>
 
-        <!-- Frequencies -->
+        <!-- ── Preset TAFs ── -->
+        <div class="taf-grid">
+            <div class="flight-info-card">
+                <div class="flight-info-card-header">{{ flight.departure }} TAF</div>
+                <div class="taf-body">
+                    <pre class="taf-text">{{ taf_departure|default:"TAF data unavailable." }}</pre>
+                </div>
+            </div>
+            <div class="flight-info-card">
+                <div class="flight-info-card-header">{{ flight.destination }} TAF</div>
+                <div class="taf-body">
+                    <pre class="taf-text">{{ taf_destination|default:"TAF data unavailable." }}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Frequencies ── -->
         <div class="flight-info-card">
             <div class="flight-info-card-header">Frequencies</div>
             <div class="freq-grid-header">
@@ -24,7 +40,6 @@
                 <span>Frequency</span>
             </div>
 
-            <!-- Take-Off location -->
             <div class="flight-info-row freq-location-group">
                 <span class="freq-location-label">{{ flight.departure }}</span>
                 <span></span>
@@ -41,7 +56,6 @@
             </div>
             {% endfor %}
 
-            <!-- Closest Area TAF / Destination -->
             <div class="flight-info-row freq-location-group">
                 <span class="freq-location-label">{{ flight.destination }}</span>
                 <span></span>

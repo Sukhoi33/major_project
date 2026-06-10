@@ -60,25 +60,16 @@ header a {
     padding: 5px;
 }
 
-/* ══════════════════════════════════════════
-   MESSAGES
-══════════════════════════════════════════ */
 .messages { list-style-type: none; padding: 0; margin: 10px 0; }
 .messages li { margin-bottom: 5px; }
 .messages li.error { color: red; }
 .messages li.success { color: green; }
 
-/* ══════════════════════════════════════════
-   2FA CARD (home page)
-══════════════════════════════════════════ */
 .card { border: 1px solid #ddd; border-radius: 12px; padding: 1.25rem; max-width: 720px; }
 .row { margin: 1.5rem 0; }
 .btn { display: inline-block; padding: .5rem .9rem; border-radius: 8px; text-decoration: none; border: 1px solid #ccc; }
 .btn-primary { border-color: #2b6cb0; }
 
-/* ══════════════════════════════════════════
-   LANDING PAGE
-══════════════════════════════════════════ */
 .landing-page {
     max-width: 600px;
     margin: 0 auto;
@@ -97,9 +88,6 @@ header a {
     font-size: 0.95rem;
 }
 
-/* ══════════════════════════════════════════
-   HOME PAGE
-══════════════════════════════════════════ */
 .preflight-home {
     max-width: 600px;
     margin: 0 auto;
@@ -170,9 +158,6 @@ header a {
     margin: 0;
 }
 
-/* ══════════════════════════════════════════
-   SHARED BUTTONS
-══════════════════════════════════════════ */
 .back-btn {
     display: inline-block;
     padding: 0.75rem 1.5rem;
@@ -210,9 +195,6 @@ header a {
     cursor: pointer;
 }
 
-/* ══════════════════════════════════════════
-   PAGE CONTAINERS
-══════════════════════════════════════════ */
 .aircraft-profiles-page {
     max-width: 600px;
     margin: 2rem 0;
@@ -238,9 +220,6 @@ header a {
     justify-content: flex-start;
 }
 
-/* ══════════════════════════════════════════
-   AIRCRAFT PROFILE CARDS
-══════════════════════════════════════════ */
 #aircraft-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -371,9 +350,6 @@ header a {
     font-size: 0.95rem;
 }
 
-/* ══════════════════════════════════════════
-   AIRCRAFT FORM (ADD / EDIT)
-══════════════════════════════════════════ */
 .aircraft-form-table {
     border: 2px solid #004b9b;
     border-radius: 8px;
@@ -489,9 +465,6 @@ header a {
     margin: 0.25rem 0;
 }
 
-/* ══════════════════════════════════════════
-   READ-ONLY VIEW PAGE
-══════════════════════════════════════════ */
 .view-value {
     flex: 1;
     padding: 0.65rem 0.75rem;
@@ -502,9 +475,6 @@ header a {
     align-items: center;
 }
 
-/* ══════════════════════════════════════════
-   DOCUMENT LIST PAGES
-══════════════════════════════════════════ */
 .doc-list {
     display: flex;
     flex-direction: column;
@@ -577,10 +547,6 @@ header a {
     font-weight: 400;
 }
 
-/* ══════════════════════════════════════════
-   FLIGHT LOGGER
-══════════════════════════════════════════ */
-
 /* Warning banner */
 .flight-warning {
     background-color: #fff8e1;
@@ -594,7 +560,6 @@ header a {
 }
 .flight-warning a { color: #004b9b; font-weight: 600; }
 
-/* form-row select */
 .flight-select {
     flex: 1;
     border: none;
@@ -721,7 +686,6 @@ header a {
 .flight-log-date { color: #666; }
 .flight-log-times { font-size: 0.8rem; color: #888; }
 
-/* Annotations */
 .annotation-section {
     max-width: 480px;
     margin-top: 2rem;
@@ -788,7 +752,6 @@ header a {
     font-style: italic;
 }
 
-/* ── Flight log: centre aligned ── */
 .flight-log-list {
     margin-left: auto;
     margin-right: auto;
@@ -799,7 +762,6 @@ header a {
     margin-right: auto;
 }
 
-/* ── Crew tags: wrap inside table row, no overflow ── */
 .crew-multi-row {
     flex-wrap: wrap;
 }
@@ -834,7 +796,6 @@ header a {
     flex: 1 1 120px;
 }
 
-/* ── Crew row: expand horizontally not vertically ── */
 .crew-multi-row {
     flex-wrap: wrap;
 }
@@ -867,13 +828,6 @@ header a {
     flex: 1 1 120px;
 }
 
-
-
-/* ══════════════════════════════════════════
-   CURRENT FLIGHT — TAF & FREQUENCIES
-══════════════════════════════════════════ */
-
-/* Two-column TAF grid */
 .taf-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -901,7 +855,6 @@ header a {
     min-height: 4rem;
 }
 
-/* Frequency table header row */
 .freq-grid-header {
     display: flex;
     justify-content: space-between;
@@ -914,7 +867,6 @@ header a {
     letter-spacing: 0.06em;
 }
 
-/* Location grouping row (bold divider) */
 .freq-location-group {
     background-color: #e8eef8;
     border-bottom: 1px solid #004b9b !important;
@@ -926,7 +878,6 @@ header a {
     font-size: 0.85rem;
 }
 
-/* Indented sub-rows under a location */
 .freq-sub-row span:first-child {
     padding-left: 1rem;
     color: #444;

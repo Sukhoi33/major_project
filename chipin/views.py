@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
@@ -84,8 +85,6 @@ def delete_aircraft(request, pk):
     return redirect('chipin:aircraft_profiles')
 
 
-# ── Document views ──────────────────────────────────────────────────────────
-
 DOC_TYPE_CONFIG = {
     'checklist': {
         'label': 'Checklist',
@@ -151,9 +150,6 @@ def delete_document(request, pk, doc_type, doc_pk):
     doc.file.delete(save=False)
     doc.delete()
     return redirect('chipin:document_list', pk=pk, doc_type=doc_type)
-
-
-# ── Flight Logger Views ─────────────────────────────────────────────────────
 
 def _save_pilot(user, name):
     name = name.strip()
@@ -348,25 +344,44 @@ def post_landing(request, pk):
     locations = Location.objects.filter(user=request.user)
 
     if request.method == 'POST':
+        # Final confirmed save
+        if request.POST.get('confirmed') == '1':
+            form = PostLandingForm(request.POST, flight=flight)
+            if form.is_valid():
+                d = form.cleaned_data
+                flight.end_time           = tz.now()
+                flight.end_fuel           = form._end_fuel_value
+                flight.fuel_added         = d.get('fuel_added')
+                flight.actual_destination = d['actual_destination'].strip().upper()
+                flight.vdo_end            = d['vdo_end']
+                flight.airswitch_end      = d['airswitch_end']
+                flight.notes              = d['notes']
+                flight.status             = FlightRecord.STATUS_COMPLETE
+                flight.save()
+                _save_location(request.user, d['actual_destination'])
+                return redirect('chipin:flight_summary', pk=flight.pk)
+
+        # First submission - validate then show confirmation card
         form = PostLandingForm(request.POST, flight=flight)
         if form.is_valid():
             d = form.cleaned_data
-            flight.end_time           = tz.now()
-            
-            # Handle end_fuel - convert "full" to max_fuel value
-            end_fuel_value = form._end_fuel_value
-            flight.end_fuel           = end_fuel_value
-            
-            flight.fuel_added         = d.get('fuel_added')
-            flight.actual_destination = d['actual_destination'].strip().upper()
-            flight.vdo_end            = d['vdo_end']
-            flight.airswitch_end      = d['airswitch_end']
-            flight.notes              = d['notes']
-            flight.status             = FlightRecord.STATUS_COMPLETE
-            flight.save()
-
-            _save_location(request.user, d['actual_destination'])
-            return redirect('chipin:flight_summary', pk=flight.pk)
+            preview = {
+                'end_fuel':           Decimal(str(form._end_fuel_value)),
+                'fuel_added':         d.get('fuel_added'),
+                'actual_destination': d['actual_destination'].strip().upper(),
+                'vdo_end':            d['vdo_end'],
+                'airswitch_end':      d['airswitch_end'],
+                'notes':              d['notes'],
+                'fuel_used':          flight.start_fuel - Decimal(str(form._end_fuel_value)) if flight.start_fuel is not None else None,
+                'vdo_total':          d['vdo_end'] - flight.vdo_start if flight.vdo_start is not None else None,
+                'airswitch_total':    d['airswitch_end'] - flight.airswitch_start if flight.airswitch_start is not None else None,
+            }
+            return render(request, 'chipin/post_landing.html', {
+                'form': form,
+                'flight': flight,
+                'locations': locations,
+                'preview': preview,
+            })
     else:
         form = PostLandingForm(flight=flight,
                                initial={'actual_destination': flight.destination})

@@ -50,7 +50,7 @@ class AircraftDocumentForm(forms.ModelForm):
         return file
 
 
-# ── Flight Logger Forms ────────────────────────────────────────────────────
+# Flight Logger Forms 
 from .models import FlightRecord, Pilot, Location
 import json
 
@@ -142,7 +142,7 @@ class PostLandingForm(forms.Form):
         if val is None or val == '':
             raise forms.ValidationError('End fuel is required.')
         
-        # Allow "full" only if aircraft is registered (not text input)
+        # Allow "full" only if aircraft is registered
         if val.lower().strip() == 'full':
             if not self.flight or not self.flight.aircraft:
                 raise forms.ValidationError('Cannot use "full" with a manually entered aircraft.')
@@ -152,7 +152,6 @@ class PostLandingForm(forms.Form):
             self._end_fuel_value = self.flight.aircraft.max_fuel
             return val
         
-        # Try to convert to decimal
         try:
             decimal_val = float(val)
             if decimal_val < 0:

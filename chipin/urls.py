@@ -8,7 +8,7 @@ urlpatterns = [
     path("home/", views.home, name="home"),
     path('sensitive/', views.sensitive_area, name='sensitive'),
 
-    # Aircraft CRUD
+    # Aircraft
     path('aircraft-profiles/', views.aircraft_profiles, name='aircraft_profiles'),
     path('aircraft-profiles/add/', views.add_aircraft, name='add_aircraft'),
     path('aircraft-profiles/<int:pk>/', views.view_aircraft, name='view_aircraft'),
@@ -24,10 +24,8 @@ urlpatterns = [
     path('new-flight/', views.new_flight, name='new_flight'),
     path('flight/<int:pk>/edit/', views.edit_flight, name='edit_flight'),
     path('flight/<int:pk>/current/', views.current_flight, name='current_flight'),
-    path('flight/<int:pk>/current/taf/', views.current_flight_taf, name='current_flight_taf'),
     path('flight/<int:pk>/current/live/', views.current_flight_live, name='current_flight_live'),
     path('flight/<int:pk>/post-landing/', views.post_landing, name='post_landing'),
     path('flight/<int:pk>/summary/', views.flight_summary, name='flight_summary'),
-    path('flight/<int:pk>/delete/', views.delete_flight, name='delete_flight'),
     path('flight-log/', views.flight_log, name='flight_log'),
 ]

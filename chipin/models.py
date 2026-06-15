@@ -73,7 +73,7 @@ class AircraftDocument(models.Model):
         return self.file.name.lower().endswith('.pdf')
 
 
-# ── Flight Logger ──────────────────────────────────────────────────────────
+# Flight Logger
 
 class Pilot(models.Model):
     """Reusable pilot name pool per user."""
@@ -114,7 +114,7 @@ class FlightRecord(models.Model):
     user   = models.ForeignKey(User, on_delete=models.CASCADE, related_name='flights')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_PRETAKEOFF)
 
-    # ── Pre-takeoff ────────────────────────────────────────────────────────
+    # Pre-takeoff 
     name              = models.CharField(max_length=200, blank=True)
     aircraft          = models.ForeignKey(Aircraft, on_delete=models.SET_NULL, null=True, blank=True)
     aircraft_free     = models.CharField(max_length=100, blank=True)   # fallback if no registered aircraft
@@ -135,7 +135,7 @@ class FlightRecord(models.Model):
     additional_crew   = models.JSONField(default=list, blank=True)    # list of names
     passenger_count   = models.IntegerField(null=True, blank=True)
 
-    # ── Post-landing ───────────────────────────────────────────────────────
+    # Post-landing
     end_time          = models.DateTimeField(null=True, blank=True)
     end_fuel          = models.DecimalField(max_digits=7, decimal_places=1, null=True, blank=True)
     fuel_added        = models.DecimalField(max_digits=7, decimal_places=1, null=True, blank=True)  # fuel added between start and end

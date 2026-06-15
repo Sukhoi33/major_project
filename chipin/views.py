@@ -269,7 +269,7 @@ def edit_flight(request, pk):
 
             return redirect('chipin:current_flight', pk=flight.pk)
     else:
-        # Pre-populate form with existing flight data
+        # Existing flight data
         initial_data = {
             'name': flight.name,
             'aircraft': flight.aircraft.pk if flight.aircraft else '',
@@ -310,7 +310,6 @@ def current_flight_taf(request, pk):
     """In-flight screen - TAF data page."""
     flight = get_object_or_404(FlightRecord, pk=pk, user=request.user,
                                status=FlightRecord.STATUS_INFLIGHT)
-    # TODO: Fetch actual TAF and frequency data
     context = {
         'flight': flight,
         'taf_departure': None,
@@ -326,7 +325,6 @@ def current_flight_live(request, pk):
     """In-flight screen - live TAF page."""
     flight = get_object_or_404(FlightRecord, pk=pk, user=request.user,
                                status=FlightRecord.STATUS_INFLIGHT)
-    # TODO: Fetch actual live TAF and frequency data
     context = {
         'flight': flight,
         'live_taf': None,
@@ -361,7 +359,7 @@ def post_landing(request, pk):
                 _save_location(request.user, d['actual_destination'])
                 return redirect('chipin:flight_summary', pk=flight.pk)
 
-        # First submission - validate then show confirmation card
+        # First submission
         form = PostLandingForm(request.POST, flight=flight)
         if form.is_valid():
             d = form.cleaned_data
@@ -399,15 +397,6 @@ def flight_summary(request, pk):
     flight = get_object_or_404(FlightRecord, pk=pk, user=request.user,
                                status=FlightRecord.STATUS_COMPLETE)
     return render(request, 'chipin/flight_summary.html', {'flight': flight})
-
-
-@login_required
-@require_POST
-def delete_flight(request, pk):
-    """Delete a flight record (for testing purposes)."""
-    flight = get_object_or_404(FlightRecord, pk=pk, user=request.user)
-    flight.delete()
-    return redirect('chipin:flight_log')
 
 
 @login_required

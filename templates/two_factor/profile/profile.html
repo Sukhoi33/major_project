@@ -1,53 +1,39 @@
 {% extends "two_factor/_base.html" %}
 {% load i18n %}
 
-{% block content %}
-  <h1>{% trans "Account Security" %}</h1>
+{% block two_factor_title %}Account Security{% endblock %}
+{% block two_factor_heading %}Account Security{% endblock %}
 
-  <p>
-    {% blocktrans %}
-      This page shows the security features of your account and allows you to
-      enable or disable them.
-    {% endblocktrans %}
-  </p>
+{% block two_factor_content %}
+<div class="aircraft-form-table">
 
-  <h2>{% trans "Two-Factor Authentication" %}</h2>
+    <div class="form-section-header">Two-Factor Authentication</div>
 
-  {% if default_device %}
-    <p>
-      {% blocktrans %}
-        Two-factor authentication is currently <strong>enabled</strong> for your account.
-      {% endblocktrans %}
-    </p>
+    {% if default_device %}
+        <div class="form-row">
+            <label>Status</label>
+            <div class="view-value">✅ Enabled</div>
+        </div>
 
-    <p>
-      <a href="{% url 'two_factor:disable' %}" class="btn btn-danger">
-        {% trans "Disable Two-Factor Authentication" %}
-      </a>
-    </p>
+        <div class="form-actions" style="margin-top: 0; padding: 1rem;">
+            <a href="{% url 'two_factor:backup_tokens' %}" class="back-btn">Backup Codes</a>
+            <a href="{% url 'two_factor:disable' %}" class="save-btn" style="text-decoration:none; text-align:center; background-color:#dc3545;">Disable 2FA</a>
+        </div>
 
-    <h3>{% trans "Backup Tokens" %}</h3>
-    <p>
-      <a href="{% url 'two_factor:backup_tokens' %}" class="btn btn-secondary">
-        {% trans "View Backup Tokens" %}
-      </a>
-    </p>
+    {% else %}
+        <div class="form-row">
+            <label>Status</label>
+            <div class="view-value">❌ Not enabled</div>
+        </div>
 
-  {% else %}
-    <p>
-      {% blocktrans %}
-        Two-factor authentication is currently <strong>disabled</strong> for your account.
-      {% endblocktrans %}
-    </p>
+        <div class="form-actions" style="margin-top: 0; padding: 1rem;">
+            <a href="{% url 'two_factor:setup' %}" class="save-btn" style="text-decoration:none; text-align:center;">Enable 2FA</a>
+        </div>
+    {% endif %}
 
-    <p>
-      <a href="{% url 'two_factor:setup' %}" class="btn btn-primary">
-        {% trans "Enable Two-Factor Authentication" %}
-      </a>
-    </p>
-  {% endif %}
-    <hr>
-    <div style="margin-top: 20px;">
-        <a href="{% url 'chipin:home' %}" class="btn btn-secondary">Back</a>
-    </div>
+</div>
+
+<div class="back-button-container">
+    <a href="{% url 'chipin:home' %}" class="back-btn">Back</a>
+</div>
 {% endblock %}

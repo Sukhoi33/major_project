@@ -1,0 +1,26 @@
+{% extends "two_factor/_base.html" %}
+{% load i18n %}
+
+{% block two_factor_title %}2FA Enabled{% endblock %}
+{% block two_factor_heading %}Two-Factor Authentication Enabled{% endblock %}
+
+{% block two_factor_content %}
+<div class="aircraft-form-table">
+    <div class="form-section-header">All Done</div>
+    <div class="form-row">
+        <label>Status</label>
+        <div class="view-value">✅ 2FA is now active on your account</div>
+    </div>
+    <p style="padding: 0.75rem 1rem; color: #555; font-size: 0.9rem;">
+        Your account is now protected with two-factor authentication. You'll be asked for a code from your authenticator app each time you log in.
+    </p>
+    <p style="padding: 0 1rem 0.75rem; color: #555; font-size: 0.9rem;">
+        It's a good idea to save some backup codes in case you lose access to your authenticator app.
+    </p>
+</div>
+
+<div class="form-actions">
+    <a href="{% url 'two_factor:backup_tokens' %}" class="save-btn" style="text-decoration:none; text-align:center;">Get Backup Codes</a>
+    <a href="{% url 'chipin:home' %}" class="back-btn">Home</a>
+</div>
+{% endblock %}

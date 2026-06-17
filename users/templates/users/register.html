@@ -1,18 +1,42 @@
 {% extends "two_factor/_base.html" %}
 {% load static %}
 {% load i18n %}
-{% block two_factor_title %}{% trans "Register - ChipIn" %}{% endblock %}
 
-{% block content %}
-<h1>Register</h1>
+{% block two_factor_title %}Register — PreFlight{% endblock %}
+{% block two_factor_heading %}Create Account{% endblock %}
+
+{% block two_factor_content %}
+
+{% if form.errors %}
+<div class="form-errors">
+    {% for field in form %}{% for error in field.errors %}<p class="error-msg">{{ error }}</p>{% endfor %}{% endfor %}
+    {% for error in form.non_field_errors %}<p class="error-msg">{{ error }}</p>{% endfor %}
+</div>
+{% endif %}
+
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
+    <div class="aircraft-form-table">
+        <div class="form-section-header">New Account</div>
+        {% for field in form %}
+        {% if field.is_hidden %}{{ field }}{% else %}
+        <div class="form-row">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        </div>
+        {% if field.errors %}<div class="form-errors">{% for error in field.errors %}<p class="error-msg">{{ error }}</p>{% endfor %}</div>{% endif %}
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="form-actions">
+        <a href="{% url 'chipin:landing' %}" class="back-btn">Back</a>
+        <button type="submit" class="save-btn">Register</button>
+    </div>
 </form>
 
-<div style="text-align: center; margin-top: 20px;">
-    <p>Already have an account? <a href="{% url 'users:login' %}">Login</a></p>
-    <a href="{% url 'chipin:landing' %}" style="display: inline-block; padding: 8px 16px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; margin-top: 10px;">← Back</a>
+<div style="text-align: center; padding: 1rem; font-size: 0.9rem; color: #555;">
+    Already have an account? <a href="{% url 'users:login' %}">Login</a>
 </div>
+
 {% endblock %}

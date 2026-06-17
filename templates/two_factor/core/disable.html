@@ -1,0 +1,26 @@
+{% extends "two_factor/_base.html" %}
+{% load i18n %}
+
+{% block two_factor_title %}Disable 2FA{% endblock %}
+{% block two_factor_heading %}Disable Two-Factor Authentication{% endblock %}
+
+{% block two_factor_content %}
+<div class="aircraft-form-table">
+    <div class="form-section-header">Confirm</div>
+    <div class="form-row">
+        <label>Warning</label>
+        <div class="view-value" style="color: #dc3545;">This will remove 2FA protection from your account.</div>
+    </div>
+    <p style="padding: 0.75rem 1rem; color: #555; font-size: 0.9rem;">
+        Are you sure you want to disable two-factor authentication? Your account will only be protected by your password.
+    </p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-actions">
+        <a href="{% url 'two_factor:profile' %}" class="back-btn">Cancel</a>
+        <button type="submit" class="save-btn" style="background-color:#dc3545;">{% trans "Yes, Disable 2FA" %}</button>
+    </div>
+</form>
+{% endblock %}
